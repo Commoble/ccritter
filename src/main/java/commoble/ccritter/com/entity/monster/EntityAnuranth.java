@@ -252,11 +252,11 @@ public class EntityAnuranth extends EntityMob implements IPredator
     		
     		if (this.isInWater())
     		{
-    			moralizeAllies(2.0F);
+    			moralizeAllies(5.0F);
     		}
     		else
     		{
-    			moralizeAllies(-1.0F);
+    			moralizeAllies(-5.0F);
     		}
     		
     		
@@ -273,7 +273,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
     	// territorial, anger allies if dies in water
     	if (this.isInWater())
     	{
-    		moralizeAllies(10.0F);
+    		moralizeAllies(20.0F);
     	}
     	else	// but frighten allies if dies on land
     	{

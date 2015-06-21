@@ -26,7 +26,7 @@ public class EntityAIHopping extends EntityAIBase
      */
     public void updateTask()
     {
-        if (this.theEntity.getRNG().nextFloat() < 0.2F)
+        if (this.theEntity.getRNG().nextFloat() < 0.3F)
         {
             this.theEntity.getJumpHelper().setJumping();
         }

@@ -160,7 +160,7 @@ public class CommonProxy
 		}
 
 		//registerModEntityWithEgg(EntityGnomeWood.class, "anuranth", 0x074316, 0xbdcbd8);
-		EntityRegistry.registerModEntity(EntityAnuranth.class, "anuranth", modEntityID++, CCPMod.instance, 80, 3, false);
+		EntityRegistry.registerModEntity(EntityAnuranth.class, "anuranth", modEntityID++, CCPMod.instance, 80, 3, true);
 		Item eggAnuranth = new ItemCCMonsterPlacer("anuranth", 0x074316, 0xbdcbd8)
 			.setUnlocalizedName("spawn_egg_anuranth")
 			.setTextureName("ccritter:spawn_egg");
