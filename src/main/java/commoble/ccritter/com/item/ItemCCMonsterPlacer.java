@@ -213,13 +213,13 @@ public class ItemCCMonsterPlacer extends ItemMonsterPlacer
         return (parColorType == 0) ? colorBase : colorSpots;
     }
     
-    @Override
+    /*@Override
     // Doing this override means that there is no localization for language
     // unless you specifically check for localization here and convert
     public String getItemStackDisplayName(ItemStack par1ItemStack)
     {
         return "Spawn "+entityToSpawnName;
-    }
+    }*/
 
 
     @Override

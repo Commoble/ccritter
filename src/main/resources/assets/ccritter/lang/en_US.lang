@@ -3,3 +3,6 @@ tile.gnomeProofChest.name=Wood Gnome Chest
 
 entity.anuranth.name=Anuranth
 entity.gnome_wood.name=Wood Gnome
+
+item.spawn_egg_anuranth.name=Spawn Anuranth
+item.spawn_egg_wood_gnome.name=Spawn Wood Gnome

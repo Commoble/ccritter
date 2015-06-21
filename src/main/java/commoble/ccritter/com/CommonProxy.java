@@ -43,6 +43,10 @@ public class CommonProxy
 	public static Block gnomeproof_chest;
 	public static Block deepgnode;
 	
+	//items
+	public static Item eggGnomeWood;
+	public static Item eggAnuranth;
+	
 	private static int modEntityID = 0;
 	
 	/*public static int gnomecache_id;
@@ -161,7 +165,7 @@ public class CommonProxy
 
 		//registerModEntityWithEgg(EntityGnomeWood.class, "anuranth", 0x074316, 0xbdcbd8);
 		EntityRegistry.registerModEntity(EntityAnuranth.class, "anuranth", modEntityID++, CCPMod.instance, 80, 3, true);
-		Item eggAnuranth = new ItemCCMonsterPlacer("anuranth", 0x074316, 0xbdcbd8)
+		CommonProxy.eggAnuranth = new ItemCCMonsterPlacer("anuranth", 0x074316, 0xbdcbd8)
 			.setUnlocalizedName("spawn_egg_anuranth")
 			.setTextureName("ccritter:spawn_egg");
 		GameRegistry.registerItem(eggAnuranth, "eggAnuranth");
@@ -188,7 +192,7 @@ public class CommonProxy
 		//EntityRegistry.registerGlobalEntityID(EntityGnomeWood.class, "gnome_wood", entity_id, 0xd3753f, 0x774725);
         //LanguageRegistry.instance().addStringLocalization("entity.gnome_wood.name", "Wood Gnome");
 		EntityRegistry.registerModEntity(EntityGnomeWood.class, "gnome_wood", modEntityID++, CCPMod.instance, 80, 3, false);
-		Item eggGnomeWood = new ItemCCMonsterPlacer("gnome_wood", 0xd3753f, 0x774725)
+		CommonProxy.eggGnomeWood = new ItemCCMonsterPlacer("gnome_wood", 0xd3753f, 0x774725)
 			.setUnlocalizedName("spawn_egg_wood_gnome")
 			.setTextureName("ccritter:spawn_egg");
 		GameRegistry.registerItem(eggGnomeWood, "eggGnomeWood");
