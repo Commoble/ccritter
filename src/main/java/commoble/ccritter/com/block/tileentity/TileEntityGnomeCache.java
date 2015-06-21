@@ -329,6 +329,9 @@ public class TileEntityGnomeCache extends TileEntityGnode
     	}
     }
 
+    /**
+     * Creates a blueprint of dirt and air blocks to shape into a gnome hovel
+     */
 	@Override
 	protected void buildBlueprint()
 	{
@@ -379,8 +382,8 @@ public class TileEntityGnomeCache extends TileEntityGnode
 					{
 						int zplus = (zoff > 0 ? 1 : -1);	// z/3, 1 or -1
 						int z_incr = 0;
-						for (int i = 0; i < 3; i++)
-						{
+						for (int i = 0; i < 3; i++)	// Make room for an entrance stairway
+						{	// TODO maybe make the entrance indefinitely long if necessary
 							this.blueprint.add(new BlockLocator(xstart+xoff+iter, ystart+i-1, zstart + zoff+z_incr, Blocks.air));
 							this.blueprint.add(new BlockLocator(xstart+xoff+iter, ystart+i, zstart + zoff+z_incr, Blocks.air));
 							z_incr += zplus;

@@ -1,5 +1,6 @@
 package commoble.ccritter.com.entity.gnome;
 
+import commoble.ccritter.com.CCPMod;
 import commoble.ccritter.com.block.tileentity.TileEntityGnode;
 import commoble.ccritter.com.block.tileentity.TileEntityGnomeCache;
 import commoble.ccritter.com.entity.ai.EntityAICreateGnomeCache;
@@ -22,6 +23,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -99,7 +101,8 @@ public class EntityGnomeWood extends EntityGnome
 		}
 	}
 	
-	@Override 
+	@Override
+	// gnome jobs have their own path weight, prefer milling around the hovel if no job
 	public float getBlockPathWeight(int x, int y, int z)
 	{
 		if (this.job != null)
@@ -172,12 +175,62 @@ public class EntityGnomeWood extends EntityGnome
 	@Override
 	public void onDeath(DamageSource damage)
 	{
+		if (this.getCarried() == Blocks.chest)
+		{
+			this.dropChest();
+		}
 		if (this.gnode != null)
 		{
 			//this.gnode.denizen = null;
 			this.gnode.onGnomeDeath();
 			this.gnode.selfDestruct();
 		}
+	}
+	
+	/**
+	 * Find a nearby open surface and drop the carried items in a chest there
+	 */
+	private void dropChest()
+	{
+		int x = (int) Math.floor(this.posX);
+		int y = (int) Math.floor(this.posY);
+		int z = (int) Math.floor(this.posZ);
+		
+		int xtemp = x;
+		int ytemp = y;
+		int ztemp = z;
+		
+		while (this.worldObj.getBlock(xtemp,ytemp,ztemp) != Blocks.air)
+		{
+			if (ytemp < this.worldObj.getActualHeight()-1)
+				ytemp++;
+			else
+			{
+				ytemp = y;
+				xtemp += (this.rand.nextInt(5) - 10);
+				ztemp += (this.rand.nextInt(5) - 10);
+			}
+		}
+		y = ytemp;
+		while(this.worldObj.getBlock(xtemp,  ytemp-1,  ztemp) == Blocks.air)
+		{
+			if (ytemp > 0)
+				ytemp--;
+			else
+			{
+				ytemp = y;
+				xtemp += (this.rand.nextInt(5) - 10);
+				ztemp += (this.rand.nextInt(5) - 10);
+			}
+		}
+		this.worldObj.setBlock(xtemp,ytemp,ztemp, Blocks.chest);
+		TileEntityChest te = (TileEntityChest)this.worldObj.getTileEntity(xtemp,ytemp,ztemp);
+		for (int i = 0; i<27; i++)
+		{
+			te.setInventorySlotContents(i, this.inventory[i]);
+			this.inventory[i] = null;
+		}
+		this.setCarried(Blocks.air);
 	}
 	
 	public void onHomeDestroyed()
