@@ -6,6 +6,10 @@ public interface IPredator
 {
 	public float getBreedValue();
 	
+	public int getHungerValue();
+	
+	public int getVeryHungryThreshold();
+	
 	public void setBreedValue(float value);
 	
 	public EntityLiving getThisEntity();

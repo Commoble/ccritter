@@ -3,10 +3,12 @@ package commoble.ccritter.com.entity.monster;
 import java.util.Iterator;
 import java.util.List;
 
+import akka.event.Logging.Debug;
 import commoble.ccritter.com.CCPMod;
 import commoble.ccritter.com.entity.ai.EntityAIDiving;
 import commoble.ccritter.com.entity.ai.EntityAIHopping;
 import commoble.ccritter.com.entity.ai.EntityAIJumpInALake;
+import commoble.ccritter.com.entity.ai.EntityAIMigrate;
 import commoble.ccritter.com.entity.ai.EntityAIPredVerifyConfidence;
 import commoble.ccritter.com.entity.ai.EntityAIPredate;
 import commoble.ccritter.com.entity.ai.EntityAIPredatorBreed;
@@ -33,7 +35,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
 
 @SuppressWarnings("rawtypes")
 public class EntityAnuranth extends EntityMob implements IPredator
@@ -49,6 +54,8 @@ public class EntityAnuranth extends EntityMob implements IPredator
 	
 	// used to increase likelihood of predation as time between kills passes
 	public int hunger;
+	
+	public static final int hungerthreshold = 30;
 
     @SuppressWarnings("static-access")
 	public EntityAnuranth(World par1World)
@@ -60,16 +67,51 @@ public class EntityAnuranth extends EntityMob implements IPredator
         this.tasks.addTask(1, new EntityAIPredVerifyConfidence(this));
         this.tasks.addTask(2, new EntityAIAttackOnCollide(this, 1.5D, false));
         this.tasks.addTask(3, new EntityAIJumpInALake(this, 1.5D));
-        this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(4, new EntityAIMigrate(this, 1.0D));
         if (CCPMod.proxy.anuranths_breed)
         	this.tasks.addTask(4, new EntityAIPredatorBreed(this));
-        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(5, new EntityAILookIdle(this));
+        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAIPredate(this, EntityPlayer.class, 0, false));
         if (CCPMod.proxy.anuranths_hunt)
         	this.targetTasks.addTask(2, new EntityAIPredate(this, EntityAnimal.class, 0, false));
         this.conf_reset_timer = 0;
+        this.setSize(0.6F, 1.8F);
+    }
+    
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     * Anuranths can spawn anywhere in swamps but only certain chunks in rivers and beaches (slime-style)
+     */
+    public boolean getCanSpawnHere()
+    {
+        Chunk chunk = this.worldObj.getChunkFromBlockCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));
+    	
+    	if (this.rand.nextFloat() > this.worldObj.getCurrentMoonPhaseFactor())
+    	{
+    		return false;
+    	}
+    	
+    	if (!this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)))
+    	{
+    		return false;
+    	}
+
+    	BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));       
+
+        if (biomegenbase == BiomeGenBase.swampland)
+        {
+            return super.getCanSpawnHere();
+        }
+
+        if (this.rand.nextInt(10) == 0 && chunk.getRandomWithSeed(7717L).nextInt(20) == 0)
+        {
+            return super.getCanSpawnHere();
+        }
+        
+        return false;
     }
     
     public float getBreedValue()
@@ -110,7 +152,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
     	}
     	else if (EntityPlayer.class.isAssignableFrom(targetClass))
     	{
-    		return 10.0F - (0.01F * (float)this.hunger);
+    		return 10.0F - (0.05F * (float)this.hunger);
     	}
     	else
     	{
@@ -154,6 +196,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
 				this.hunger++;
 			}
     	}
+    	
     }
 
     protected void applyEntityAttributes()
@@ -191,6 +234,15 @@ public class EntityAnuranth extends EntityMob implements IPredator
     @Override
     public float getBlockPathWeight(int x, int y, int z)
     {
+    	if (this.getHungerValue() >= this.getVeryHungryThreshold() && this.getAttackTarget() == null)
+    	{
+    		// if very hungry, travel as far from self as possible
+    		// find distance (root of squares)
+    		int selfx = MathHelper.floor_double(this.posX);
+    		int selfy = MathHelper.floor_double(this.posY);
+    		int selfz = MathHelper.floor_double(this.posZ);
+    		return (float) Math.sqrt(Math.pow(selfx - x, 2) + Math.pow(selfy-y, 2) + Math.pow(selfz-z, 2));
+    	}
     	if (this.worldObj.getBlock(x, y, z) == Blocks.water)
     		return 10000.0F;
     	else
@@ -448,6 +500,18 @@ public class EntityAnuranth extends EntityMob implements IPredator
      */
     protected boolean canDespawn()
     {
-        return (this.hunger >= 800 && this.confidence <= 3);	// if alone and hungry
+        return (this.hunger >= 300 && this.confidence <= 3);	// if alone and hungry
     }
+
+	@Override
+	public int getHungerValue()
+	{
+		return this.hunger;
+	}
+	
+	@Override
+	public int getVeryHungryThreshold()
+	{
+		return this.hungerthreshold;
+	}
 }

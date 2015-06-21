@@ -13,7 +13,9 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenForest;
+import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.biome.BiomeGenSwamp;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.MinecraftForge;
@@ -176,9 +178,21 @@ public class CommonProxy
 		{
 			for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)
 	        {	// spawn anuranths in any swamp or biome that inherits from swamps
-	        	if (BiomeGenBase.getBiomeGenArray()[i] != null && BiomeGenSwamp.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass()))
+	        	if
+	        	(
+	        		BiomeGenBase.getBiomeGenArray()[i] != null &&
+	        		(
+	        			(
+	        				BiomeGenSwamp.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass())
+	        				||
+	        				BiomeGenRiver.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass())
+	        				||
+	        				BiomeGenBeach.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass())
+	        			)
+	        		)
+	        	)	
 	        	{
-	        		EntityRegistry.addSpawn(EntityAnuranth.class, 2, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
+	        		EntityRegistry.addSpawn(EntityAnuranth.class, 100, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
 	        	}
 	        }
 		}

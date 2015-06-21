@@ -42,7 +42,7 @@ public class EntityGnomeWood extends EntityGnome
 	{
 		super(par1World);
 
-        this.setSize(0.6F, 0.9F);
+        this.setSize(0.6F, 0.8F);
         this.getNavigator().setAvoidsWater(true);
         this.getNavigator().setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
