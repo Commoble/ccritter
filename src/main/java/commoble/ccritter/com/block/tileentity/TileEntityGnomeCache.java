@@ -319,7 +319,7 @@ public class TileEntityGnomeCache extends TileEntityGnode
     	{
     		return true;
     	}
-    	else if (block == CCPMod.proxy.gnomecache)
+    	else if (block == CCPMod.proxy.gnomeCache)
     	{
     		return true;
     	}

@@ -129,7 +129,7 @@ public class EntityAICreateGnomeCache extends EntityAIBase
     	if (!this.gnome.worldObj.isRemote && this.gnome.worldObj.isAirBlock(this.x, this.y, this.z))
     	{
     		this.assigntimer = 5;
-    		this.gnome.worldObj.setBlock(x, y, z, CCPMod.proxy.gnomecache);
+    		this.gnome.worldObj.setBlock(x, y, z, CCPMod.proxy.gnomeCache);
     		TileEntity ent = this.gnome.worldObj.getTileEntity(x, y, z);
     		if (ent != null && ent instanceof TileEntityGnomeCache)
     		{

@@ -3,12 +3,13 @@ package commoble.ccritter.com.block.tileentity;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import commoble.ccritter.com.entity.ai.job.Job;
 import commoble.ccritter.com.entity.gnome.EntityGnome;
 import commoble.ccritter.com.util.BlockLocator;
 import commoble.ccritter.com.util.IntLoc;
 
-/*public class TileEntityDeepGnode extends TileEntityGnode
+public class TileEntityDeepGnode extends TileEntityGnode
 {
 	// used to define what type of gnode this TE is
 	public class DGRoom
@@ -161,9 +162,9 @@ import commoble.ccritter.com.util.IntLoc;
 		{
 			for (int z = (ystart - radius); z <= (ystart + radius); z++)
 			{
-				this.blueprint.add(new BlockLocator(x, ystart, z, Block.stone.blockID));
-				this.blueprint.add(new BlockLocator(x, ystart+1, z, 0));
-				this.blueprint.add(new BlockLocator(x, ystart+2, z, 0));
+				this.blueprint.add(new BlockLocator(x, ystart, z, Blocks.stone));
+				this.blueprint.add(new BlockLocator(x, ystart+1, z, Blocks.air));
+				this.blueprint.add(new BlockLocator(x, ystart+2, z, Blocks.air));
 			}
 		}
 		
@@ -178,18 +179,18 @@ import commoble.ccritter.com.util.IntLoc;
 			{
 				for (int frameoff = -1; frameoff <= 1; frameoff++)
 				{
-					this.blueprint.add(new BlockLocator(dx + frameoff, dy, dz, Block.stone.blockID));
-					this.blueprint.add(new BlockLocator(dx + frameoff, dy+1, dz, 0));
-					this.blueprint.add(new BlockLocator(dx + frameoff, dy+2, dz, 0));
+					this.blueprint.add(new BlockLocator(dx + frameoff, dy, dz, Blocks.stone));
+					this.blueprint.add(new BlockLocator(dx + frameoff, dy+1, dz, Blocks.air));
+					this.blueprint.add(new BlockLocator(dx + frameoff, dy+2, dz, Blocks.air));
 				}
 			}
 			else	// door spans across y -- doors 1, 3, 5, 7
 			{
 				for (int frameoff = -1; frameoff <= 1; frameoff++)
 				{
-					this.blueprint.add(new BlockLocator(dx, dy, dz + frameoff, Block.stone.blockID));
-					this.blueprint.add(new BlockLocator(dx, dy+1, dz + frameoff, 0));
-					this.blueprint.add(new BlockLocator(dx, dy+2, dz + frameoff, 0));
+					this.blueprint.add(new BlockLocator(dx, dy, dz + frameoff, Blocks.stone));
+					this.blueprint.add(new BlockLocator(dx, dy+1, dz + frameoff, Blocks.air));
+					this.blueprint.add(new BlockLocator(dx, dy+2, dz + frameoff, Blocks.air));
 				}
 			}
 		}
@@ -203,7 +204,7 @@ import commoble.ccritter.com.util.IntLoc;
 	}
 
 	@Override
-	protected void processBlueprintLoc(BlockLocator loc, int oldid)
+	protected void processBlueprintLoc(BlockLocator loc, Block oldblock)
 	{
 		// TODO Auto-generated method stub
 		
@@ -237,4 +238,8 @@ import commoble.ccritter.com.util.IntLoc;
 		
 	}
 	
-}*/
+	private void setChildLocs()
+	{
+		// TODO finish this
+	}
+}

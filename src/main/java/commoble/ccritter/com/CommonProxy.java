@@ -2,11 +2,13 @@ package commoble.ccritter.com;
 
 import commoble.ccritter.com.block.BlockChestGnome;
 import commoble.ccritter.com.block.BlockDeepGnode;
+import commoble.ccritter.com.block.BlockDeepGnomeSpawn;
 import commoble.ccritter.com.block.BlockGnomeCache;
 import commoble.ccritter.com.block.tileentity.TileEntityGnomeCache;
 import commoble.ccritter.com.entity.gnome.EntityGnomeDeep;
 import commoble.ccritter.com.entity.gnome.EntityGnomeWood;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
+import commoble.ccritter.com.item.DGSBItemBlock;
 import commoble.ccritter.com.item.ItemCCMonsterPlacer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
@@ -41,19 +43,16 @@ public class CommonProxy
 	public static boolean spawn_deep_gnomes = true;
 	
 	//blocks
-	public static Block gnomecache;
-	public static Block gnomeproof_chest;
-	public static Block deepgnode;
+	public static Block gnomeCache;
+	public static Block gnomeProofChest;
+	public static Block deepGnode;
+	public static Block deepGnomeSpawnBlock;
 	
 	//items
 	public static Item eggGnomeWood;
 	public static Item eggAnuranth;
 	
 	private static int modEntityID = 0;
-	
-	/*public static int gnomecache_id;
-	public static int gnomeproof_chest_id;
-	public static int deepgnode_id;*/
 	
 	/**
 	* Run before anything else. Read your config, create blocks, items, etc, and register them with the GameRegistry
@@ -67,24 +66,6 @@ public class CommonProxy
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		Property conf;
 		config.load();
-		
-		// block options
-		/*int next_id = 256;
-		
-		next_id = this.getNextFreeBlockId(next_id);
-		conf = config.get("Block IDs", "gnomecache", next_id);
-		CommonProxy.gnomecache_id = conf.getInt(next_id);
-		next_id++;
-		
-		next_id = this.getNextFreeBlockId(next_id);
-		conf = config.get("Block IDs", "gnomeproof_chest", next_id);
-		CommonProxy.gnomeproof_chest_id = conf.getInt(next_id);
-		next_id++;
-		
-		next_id = this.getNextFreeBlockId(next_id);
-		conf = config.get("Block IDs", "deepgnode", next_id);
-		CommonProxy.deepgnode_id = conf.getInt(next_id);
-		next_id++;*/
 		
 		// entity options
 		conf = config.get("Creature: Anuranths", "spawn_anuranths", true);
@@ -124,7 +105,7 @@ public class CommonProxy
 	*/
 	public void load()
 	{
-		// register my Recipies
+		// register my Recipes
 	}
 	 
 	/**
@@ -138,17 +119,17 @@ public class CommonProxy
 	
 	private void registerBlocks()
 	{
-		CommonProxy.gnomecache = new BlockGnomeCache();
-		GameRegistry.registerBlock(CommonProxy.gnomecache, "gnomecache");
-		//LanguageRegistry.addName(gnomecache, "Wood Gnome Hovel");
+		CommonProxy.gnomeCache = new BlockGnomeCache();
+		GameRegistry.registerBlock(CommonProxy.gnomeCache, "gnomeCache");
 		
-		CommonProxy.gnomeproof_chest = new BlockChestGnome();
-		GameRegistry.registerBlock(CommonProxy.gnomeproof_chest, "gnomeproof_chest");
-		//LanguageRegistry.addName(gnomeproof_chest, "Wood Gnome Chest");
+		CommonProxy.gnomeProofChest = new BlockChestGnome();
+		GameRegistry.registerBlock(CommonProxy.gnomeProofChest, "gnomeProofChest");
+		
+		CommonProxy.deepGnomeSpawnBlock = new BlockDeepGnomeSpawn();
+		GameRegistry.registerBlock(CommonProxy.deepGnomeSpawnBlock, DGSBItemBlock.class, "deepGnomeSpawnBlock");
 		
 		/*CommonProxy.gnomeproof_chest = new BlockDeepGnode(CommonProxy.gnomeproof_chest_id);
-		GameRegistry.registerBlock(CommonProxy.deepgnode, "deepgnode");
-		LanguageRegistry.addName(deepgnode, "Deep Gnome Marker");*/
+		GameRegistry.registerBlock(CommonProxy.deepgnode, "deepgnode");*/
 	}
 	
 	private void registerTileEntities()

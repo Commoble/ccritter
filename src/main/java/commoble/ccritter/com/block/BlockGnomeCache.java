@@ -6,6 +6,7 @@ import commoble.ccritter.com.block.tileentity.TileEntityGnomeCache;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -20,8 +21,7 @@ public class BlockGnomeCache extends BlockContainer
 		this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
         setBlockName("gnomeCache");
-        this.setBlockTextureName("ccritter:gnomecache");
-        //this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setBlockTextureName("dirt");
 	}
 
 	@Override	// this is createNewTileEntity, I think

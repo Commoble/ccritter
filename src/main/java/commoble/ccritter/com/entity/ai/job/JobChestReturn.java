@@ -32,7 +32,7 @@ public class JobChestReturn extends Job
 			// if this is still an air block, set as chest and move inventory
 			if (gnomewood.worldObj.getBlock(loc.x, loc.y, loc.z) == Blocks.air)
 			{
-				gnomewood.worldObj.setBlock(loc.x, loc.y, loc.z, CCPMod.proxy.gnomeproof_chest);
+				gnomewood.worldObj.setBlock(loc.x, loc.y, loc.z, CCPMod.proxy.gnomeProofChest);
 				TileEntityChest te = (TileEntityChest)gnomewood.worldObj.getTileEntity(loc.x, loc.y, loc.z);
 				for (int i = 0; i<27; i++)
 				{
