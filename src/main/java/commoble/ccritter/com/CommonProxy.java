@@ -192,7 +192,7 @@ public class CommonProxy
 	        		)
 	        	)	
 	        	{
-	        		EntityRegistry.addSpawn(EntityAnuranth.class, 100, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
+	        		EntityRegistry.addSpawn(EntityAnuranth.class, 8, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
 	        	}
 	        }
 		}
