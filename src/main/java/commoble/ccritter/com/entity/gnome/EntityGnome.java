@@ -2,11 +2,18 @@ package commoble.ccritter.com.entity.gnome;
 
 import commoble.ccritter.com.entity.ai.job.Job;
 import commoble.ccritter.com.util.GnomeAssignment;
+import commoble.ccritter.com.util.IntLoc;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 public abstract class EntityGnome extends EntityCreature implements IGnome
 {
@@ -29,6 +36,21 @@ public abstract class EntityGnome extends EntityCreature implements IGnome
         //this.assignment = null;
         this.job = null;
 	}
+	
+	@Override
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.dataWatcher.addObject(carryDataId, new Byte((byte)Block.getIdFromBlock(Blocks.air)));
+    }
+	
+	protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
+    }
 	
 	
 	
@@ -125,11 +147,6 @@ public abstract class EntityGnome extends EntityCreature implements IGnome
     {
         return true;
     }
-
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-    }
     
     /**
      * Returns the sound this mob makes while it's alive.
@@ -199,4 +216,10 @@ public abstract class EntityGnome extends EntityCreature implements IGnome
     {
         return (Block.getBlockById(this.dataWatcher.getWatchableObjectByte(carryDataId)));
     }
+	
+	@Override
+	public boolean canDespawn()
+	{
+		return false;
+	}	
 }

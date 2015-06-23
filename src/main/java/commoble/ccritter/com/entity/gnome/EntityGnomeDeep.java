@@ -1,6 +1,7 @@
 package commoble.ccritter.com.entity.gnome;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -38,6 +39,14 @@ public class EntityGnomeDeep extends EntityGnome
         this.tasks.addTask(9, new EntityAILookIdle(this));
         //this.hasChest = false;
 	}
+	
+	protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
+    }
 	
 	@Override
 	protected Job getNewJob()

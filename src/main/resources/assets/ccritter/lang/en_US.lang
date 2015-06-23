@@ -1,9 +1,11 @@
 tile.gnomeCache.name=Wood Gnome Hovel
 tile.gnomeProofChest.name=Wood Gnome Chest
 tile.deepGnomeSpawnBlock.name=Deep Stone
+tile.deepChest.name=Deep Chest
 
 entity.anuranth.name=Anuranth
 entity.gnome_wood.name=Wood Gnome
 
 item.spawn_egg_anuranth.name=Spawn Anuranth
 item.spawn_egg_wood_gnome.name=Spawn Wood Gnome
+item.spawn_egg_deep_gnome.name=Spawn Deep Gnome

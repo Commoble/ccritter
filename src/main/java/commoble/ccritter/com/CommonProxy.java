@@ -1,15 +1,18 @@
 package commoble.ccritter.com;
 
+import commoble.ccritter.com.block.BlockChestDeep;
 import commoble.ccritter.com.block.BlockChestGnome;
 import commoble.ccritter.com.block.BlockDeepGnode;
 import commoble.ccritter.com.block.BlockDeepGnomeSpawn;
 import commoble.ccritter.com.block.BlockGnomeCache;
+import commoble.ccritter.com.block.tileentity.TileEntityChestDeep;
 import commoble.ccritter.com.block.tileentity.TileEntityGnomeCache;
 import commoble.ccritter.com.entity.gnome.EntityGnomeDeep;
 import commoble.ccritter.com.entity.gnome.EntityGnomeWood;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
 import commoble.ccritter.com.item.DGSBItemBlock;
 import commoble.ccritter.com.item.ItemCCMonsterPlacer;
+import commoble.ccritter.com.world.WorldGenManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
@@ -47,10 +50,15 @@ public class CommonProxy
 	public static Block gnomeProofChest;
 	public static Block deepGnode;
 	public static Block deepGnomeSpawnBlock;
+	public static Block deepChest;
 	
 	//items
 	public static Item eggGnomeWood;
 	public static Item eggAnuranth;
+	public static Item eggGnomeDeep;
+	
+	// other
+	public static WorldGenManager worldgenmanager = new WorldGenManager();
 	
 	private static int modEntityID = 0;
 	
@@ -61,6 +69,7 @@ public class CommonProxy
 	{
 		// register sounds
 		MinecraftForge.EVENT_BUS.register(new SoundManager());
+		
 		
 		// read config
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -97,6 +106,7 @@ public class CommonProxy
 		this.registerBlocks();
 		this.registerTileEntities();
 		this.registerEntities();
+		GameRegistry.registerWorldGenerator(worldgenmanager, 0);
 	}
 	 
 	/**
@@ -128,13 +138,18 @@ public class CommonProxy
 		CommonProxy.deepGnomeSpawnBlock = new BlockDeepGnomeSpawn();
 		GameRegistry.registerBlock(CommonProxy.deepGnomeSpawnBlock, DGSBItemBlock.class, "deepGnomeSpawnBlock");
 		
-		/*CommonProxy.gnomeproof_chest = new BlockDeepGnode(CommonProxy.gnomeproof_chest_id);
-		GameRegistry.registerBlock(CommonProxy.deepgnode, "deepgnode");*/
+		CommonProxy.deepChest = new BlockChestDeep(0);
+		GameRegistry.registerBlock(CommonProxy.deepChest, "deepChest");
+
+		//GameRegistry.registerBlock(CommonProxy.deepgnode, "deepgnode");*/
 	}
 	
 	private void registerTileEntities()
 	{
 		GameRegistry.registerTileEntity(TileEntityGnomeCache.class, "te_gnomecache");
+		
+		GameRegistry.registerTileEntity(TileEntityChestDeep.class, "te_deepchest");
+
 	}
 	
 	private void registerEntities()
@@ -173,7 +188,7 @@ public class CommonProxy
 	        		)
 	        	)	
 	        	{
-	        		EntityRegistry.addSpawn(EntityAnuranth.class, 100, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
+	        		EntityRegistry.addSpawn(EntityAnuranth.class, 10, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
 	        	}
 	        }
 		}
@@ -202,6 +217,12 @@ public class CommonProxy
 	        	}
 	        }
 		}
+		
+		EntityRegistry.registerModEntity(EntityGnomeDeep.class,  "gnome_deep", modEntityID++, CCPMod.instance, 80, 3, false);
+		CommonProxy.eggGnomeDeep = new ItemCCMonsterPlacer("gnome_deep", 0x969696, 0x7f7f7f)
+			.setUnlocalizedName("spawn_egg_deep_gnome")
+			.setTextureName("ccritter:spawn_egg");
+		GameRegistry.registerItem(eggGnomeDeep, "eggGnomeDeep");
 		
 		/*if (CommonProxy.spawn_deep_gnomes)
 		{

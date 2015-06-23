@@ -3,11 +3,15 @@ package commoble.ccritter.client;
 import commoble.ccritter.client.model.ModelAnuranth;
 import commoble.ccritter.client.model.ModelGnome;
 import commoble.ccritter.client.render.RenderAnuranth;
+import commoble.ccritter.client.render.RenderGnomeDeep;
 import commoble.ccritter.client.render.RenderGnomeWood;
-
+import commoble.ccritter.client.render.tileentity.RenderTileEntityChestDeep;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import commoble.ccritter.com.CommonProxy;
+import commoble.ccritter.com.block.tileentity.TileEntityChestDeep;
+import commoble.ccritter.com.entity.gnome.EntityGnomeDeep;
 import commoble.ccritter.com.entity.gnome.EntityGnomeWood;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
 
@@ -28,6 +32,10 @@ public class CombinedClientProxy extends CommonProxy
 		// register my renderers
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnuranth.class, new RenderAnuranth(new ModelAnuranth(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntityGnomeWood.class, new RenderGnomeWood(new ModelGnome(), 0.4F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityGnomeDeep.class, new RenderGnomeDeep(new ModelGnome(), 0.4F));
+
+        // tile entity renderers
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestDeep.class, new RenderTileEntityChestDeep());
 	}
 	 
 	/**

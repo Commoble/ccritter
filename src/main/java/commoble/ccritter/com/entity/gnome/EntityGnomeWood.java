@@ -62,13 +62,6 @@ public class EntityGnomeWood extends EntityGnome
         //this.hasChest = false;
 	}
 	
-	@Override
-    protected void entityInit()
-    {
-        super.entityInit();
-        this.dataWatcher.addObject(carryDataId, new Byte((byte)0));
-    }
-	
 	public void finishSetBlock(GnomeAssignment assign, boolean finished)
 	{
 		if (this.gnode != null)
@@ -118,20 +111,10 @@ public class EntityGnomeWood extends EntityGnome
 		return 0;
 	}
 	
-	protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
-    }
-	
 	@Override
     public void onLivingUpdate()
     {
-        this.updateArmSwingProgress();
-        
-        if (this.worldObj.getBlock((int)this.posX, (int)this.posY-1, (int)this.posZ) == Blocks.dirt)
+		if (this.worldObj.getBlock((int)this.posX, (int)this.posY-1, (int)this.posZ) == Blocks.dirt)
         {
         	this.heal(0.1F);
         }
