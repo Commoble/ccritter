@@ -26,6 +26,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -76,7 +77,9 @@ public class EntityAnuranth extends EntityMob implements IPredator
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAIPredate(this, EntityPlayer.class, 0, false));
         if (CCPMod.proxy.anuranths_hunt)
+        {
         	this.targetTasks.addTask(2, new EntityAIPredate(this, EntityAnimal.class, 0, false));
+        }
         this.conf_reset_timer = 0;
         this.setSize(0.6F, 1.8F);
     }
@@ -88,27 +91,31 @@ public class EntityAnuranth extends EntityMob implements IPredator
     public boolean getCanSpawnHere()
     {
         Chunk chunk = this.worldObj.getChunkFromBlockCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));
-    	
     	if (this.rand.nextFloat() > this.worldObj.getCurrentMoonPhaseFactor())
     	{
     		return false;
     	}
     	
-    	if (!this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)))
+    	/*if (!this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)))
     	{
     		return false;
-    	}
+    	}*/
 
-    	BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));       
+    	BiomeGenBase biome = this.worldObj.getBiomeGenForCoords(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posZ));       
 
-        if (biomegenbase == BiomeGenBase.swampland)
+        if (biome == BiomeGenBase.swampland)
         {
-            return super.getCanSpawnHere();
+
+            if (this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox))//return super.getCanSpawnHere();
+            {
+            	return true;
+            }
         }
 
-        if (this.rand.nextInt(10) == 0 && chunk.getRandomWithSeed(7717L).nextInt(20) == 0)
+        // 1/20 chunks of other areas are feasible
+        if (this.rand.nextInt(2) == 0 && chunk.getRandomWithSeed(7717L).nextInt(20) == 0 && this.posY > 45.0D && this.posY < 63.0D && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox))
         {
-            return super.getCanSpawnHere();
+        	return true;
         }
         
         return false;
@@ -363,7 +370,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
         super.onKillEntity(ent_other);
 
         float exp_gain;
-    	float mult = 0.5F * this.worldObj.difficultySetting.getDifficultyId();
+    	float mult = 0.5F * this.worldObj.difficultySetting.getDifficultyId();	// 0.5 on easy, 1.0 on normal, 1.5 on hard
     	
     	/*if (EntityPlayer.class.isAssignableFrom(ent_other.getClass()))
         {
@@ -380,7 +387,18 @@ public class EntityAnuranth extends EntityMob implements IPredator
         	exp_gain = 5.0F;
         	System.out.println("Did NOT kill player OR entityliving");
         }*/
-    	exp_gain = 5.0F;	// TODO eventually fix xp gain from Players
+    	if (EntitySquid.class.isAssignableFrom(ent_other.getClass()))
+		{
+    		exp_gain = 2.0F;
+		}
+    	else if (EntityPlayer.class.isAssignableFrom(ent_other.getClass()))
+    	{
+    		exp_gain = 10.0F;
+    	}
+    	else
+    	{
+        	exp_gain = 5.0F;
+    	}
         
         this.breedvalue += this.getRNG().nextFloat() * exp_gain * mult;
         

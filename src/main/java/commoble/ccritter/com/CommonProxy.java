@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenForest;
+import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.biome.BiomeGenSwamp;
 import net.minecraftforge.common.config.Configuration;
@@ -177,22 +178,18 @@ public class CommonProxy
 		if (CommonProxy.spawn_anuranths)
 		{
 			for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)
-	        {	// spawn anuranths in any swamp or biome that inherits from swamps
-	        	if
-	        	(
-	        		BiomeGenBase.getBiomeGenArray()[i] != null &&
-	        		(
-	        			(
-	        				BiomeGenSwamp.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass())
-	        				||
-	        				BiomeGenRiver.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass())
-	        				||
-	        				BiomeGenBeach.class.isAssignableFrom(BiomeGenBase.getBiomeGenArray()[i].getClass())
-	        			)
-	        		)
-	        	)	
+	        {	// can waterspawn in any biome where temperature and rain are sufficient, except oceans
+				BiomeGenBase biome = BiomeGenBase.getBiomeGenArray()[i];
+	        	if (biome != null)
 	        	{
-	        		EntityRegistry.addSpawn(EntityAnuranth.class, 8, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
+	        		if (biome.rainfall >= 0.39F && biome.temperature >= 0.49F && !BiomeGenOcean.class.isAssignableFrom(biome.getClass()))
+	        		{
+		        		EntityRegistry.addSpawn(EntityAnuranth.class, 8, 3, 5, EnumCreatureType.waterCreature, biome);
+	        		}	// can spawn on land in swamps
+	        		if (BiomeGenSwamp.class.isAssignableFrom(biome.getClass()))
+	        		{
+		        		EntityRegistry.addSpawn(EntityAnuranth.class, 8, 3, 5, EnumCreatureType.creature, biome);
+	        		}
 	        	}
 	        }
 		}
