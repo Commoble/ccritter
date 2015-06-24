@@ -37,10 +37,11 @@ public class EntityAIJumpInALake extends EntityAIBase
         }
         else
         {
-    		float confidence = this.theCreature.getConfidence();
-    		float breedvalue = this.theCreature.getBreedValue();
+    		//float confidence = this.theCreature.getConfidence();
+    		//float breedvalue = this.theCreature.getBreedValue();
 
-    		if (confidence + this.theCreature.hunger < breedvalue)
+    		//if (confidence + this.theCreature.hunger < breedvalue)
+    		if (this.theCreature.getHungerValue() < this.theCreature.getVeryHungryThreshold())// && this.theCreature.getRNG().nextInt(20) == 0)
     		{
 	        	Vec3 vec3 = this.findWater();
 	
@@ -93,7 +94,7 @@ public class EntityAIJumpInALake extends EntityAIBase
             
             //System.out.println("Looking for a lake " + x + " " + y + " " + z + " = ");
             
-            if (this.theWorld.getBlock(x, y, z) == Blocks.water && this.theCreature.getBlockPathWeight(x, y, z) < 0.0F)
+            if (this.theWorld.getBlock(x, y, z) == Blocks.water)
             {
                 return Vec3.createVectorHelper((double)x, (double)y, (double)z);
             }

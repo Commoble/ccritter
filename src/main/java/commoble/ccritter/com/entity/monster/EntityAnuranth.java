@@ -24,9 +24,13 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -71,14 +75,16 @@ public class EntityAnuranth extends EntityMob implements IPredator
         this.tasks.addTask(4, new EntityAIMigrate(this, 1.0D));
         if (CCPMod.proxy.anuranths_breed)
         	this.tasks.addTask(4, new EntityAIPredatorBreed(this));
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
+        //this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAIPredate(this, EntityPlayer.class, 0, false));
         if (CCPMod.proxy.anuranths_hunt)
         {
+        	this.targetTasks.addTask(2, new EntityAIPredate(this, EntitySpider.class, 0, false));
         	this.targetTasks.addTask(2, new EntityAIPredate(this, EntityAnimal.class, 0, false));
+        	this.targetTasks.addTask(2, new EntityAIPredate(this, EntityVillager.class, 0, false));
         }
         this.conf_reset_timer = 0;
         this.setSize(0.6F, 1.8F);
@@ -143,7 +149,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
     
     public float getConfidence()
     {
-    	return this.confidence;
+    	return this.confidence - (this.getMaxHealth() - this.getHealth());
     }
     
     public void setConfidence(float conf)
@@ -155,9 +161,13 @@ public class EntityAnuranth extends EntityMob implements IPredator
     {
     	if (EntityAnimal.class.isAssignableFrom(targetClass))
     	{
-    		return (-1.0F) * (float)this.hunger;
+    		return 0.0F - (float)this.hunger;
     	}
-    	else if (EntityPlayer.class.isAssignableFrom(targetClass))
+    	else if (EntitySpider.class.isAssignableFrom(targetClass))
+    	{
+    		return 5.0F - (float)this.hunger;
+    	}
+    	else if (EntityPlayer.class.isAssignableFrom(targetClass) || EntityVillager.class.isAssignableFrom(targetClass))
     	{
     		return 10.0F - (0.05F * (float)this.hunger);
     	}
@@ -187,7 +197,13 @@ public class EntityAnuranth extends EntityMob implements IPredator
     public void normalizeConfidence()
     {
     	if (!this.worldObj.isRemote)
-    	{
+    	{	
+    		// also a good time to heal (only in water)
+			if (this.hunger < this.getVeryHungryThreshold() && this.inWater)
+			{
+				this.heal(2);
+			}
+			
 	    	double d0 = 20.0D;	// range
 	        List list = this.worldObj.getEntitiesWithinAABB(this.getClass(), AxisAlignedBB.getBoundingBox(this.posX, this.posY, this.posZ, this.posX + 1.0D, this.posY + 1.0D, this.posZ + 1.0D).expand(d0, 10.0D, d0));
 	        int frog_count = list.size();
@@ -241,19 +257,23 @@ public class EntityAnuranth extends EntityMob implements IPredator
     @Override
     public float getBlockPathWeight(int x, int y, int z)
     {
-    	if (this.getHungerValue() >= this.getVeryHungryThreshold() && this.getAttackTarget() == null)
+    	if (this.getHungerValue() < this.getVeryHungryThreshold() && this.worldObj.getBlock(x, y, z) == Blocks.water)
     	{
-    		// if very hungry, travel as far from self as possible
+    		return 10000.0F;
+    	}
+    	else
+    	{
+    		// otherwise, travel as far as possible, preferring lowlands
     		// find distance (root of squares)
     		int selfx = MathHelper.floor_double(this.posX);
     		int selfy = MathHelper.floor_double(this.posY);
     		int selfz = MathHelper.floor_double(this.posZ);
-    		return (float) Math.sqrt(Math.pow(selfx - x, 2) + Math.pow(selfy-y, 2) + Math.pow(selfz-z, 2));
+    		return (float) Math.sqrt(Math.pow(selfx - x, 2) + Math.pow(selfy-y, 2) + Math.pow(selfz-z, 2)) + 256-y;
     	}
-    	if (this.worldObj.getBlock(x, y, z) == Blocks.water)
+    	/*if (this.worldObj.getBlock(x, y, z) == Blocks.water)
     		return 10000.0F;
     	else
-    		return 10000.0F - y;
+    		return 10000.0F - y;*/
     }
 
     /**
@@ -320,8 +340,8 @@ public class EntityAnuranth extends EntityMob implements IPredator
     		
     		
     		// will always retaliate
-			if (par1DamageSource.getSourceOfDamage() != null && this.confidence < 15.0F)
-				this.confidence = 20.0F;
+			if (par1DamageSource.getSourceOfDamage() != null && this.confidence < 20.0F)
+				this.confidence = 40.0F;
     	}
     	return flag;
     }
