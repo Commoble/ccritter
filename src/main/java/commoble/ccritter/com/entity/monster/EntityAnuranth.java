@@ -538,7 +538,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
      */
     protected boolean canDespawn()
     {
-        return (this.hunger >= 300 && this.confidence <= 3);	// if alone and hungry
+        return false; //(this.hunger >= 300 && this.confidence <= 3);	// if alone and hungry
     }
 
 	@Override
