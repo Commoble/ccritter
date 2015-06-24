@@ -1,10 +1,12 @@
 package commoble.ccritter.client;
 
+import net.minecraftforge.client.MinecraftForgeClient;
 import commoble.ccritter.client.model.ModelAnuranth;
 import commoble.ccritter.client.model.ModelGnome;
 import commoble.ccritter.client.render.RenderAnuranth;
 import commoble.ccritter.client.render.RenderGnomeDeep;
 import commoble.ccritter.client.render.RenderGnomeWood;
+import commoble.ccritter.client.render.item.RenderItemChestDeep;
 import commoble.ccritter.client.render.tileentity.RenderTileEntityChestDeep;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -29,13 +31,14 @@ public class CombinedClientProxy extends CommonProxy
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		super.preInit(event);
-		// register my renderers
+		// entity renderers
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnuranth.class, new RenderAnuranth(new ModelAnuranth(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntityGnomeWood.class, new RenderGnomeWood(new ModelGnome(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntityGnomeDeep.class, new RenderGnomeDeep(new ModelGnome(), 0.4F));
 
-        // tile entity renderers
+        // renderers for special tiles
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestDeep.class, new RenderTileEntityChestDeep());
+        MinecraftForgeClient.registerItemRenderer(CommonProxy.deepChest.getItem(null, 0, 0, 0), new RenderItemChestDeep());
 	}
 	 
 	/**

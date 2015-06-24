@@ -237,9 +237,9 @@ public class TileEntityChestDeep extends TileEntity implements IInventory
         //this.adjacentChestChecked = false;
     }
 
-    /*private void func_145978_a(TileEntityChestDeep p_145978_1_, int p_145978_2_)
+    private void func_145978_a(TileEntityChestDeep p_145978_1_, int p_145978_2_)
     {
-        if (p_145978_1_.isInvalid())
+        /*if (p_145978_1_.isInvalid())
         {
             this.adjacentChestChecked = false;
         }
@@ -274,15 +274,15 @@ public class TileEntityChestDeep extends TileEntity implements IInventory
                         this.adjacentChestChecked = false;
                     }
             }
-        }
-    }*/
+        }*/
+    }
 
     /**
      * Performs the check for adjacent chests to determine if this chest is double or not.
      */
-    /*public void checkForAdjacentChests()
+    public void checkForAdjacentChests()
     {
-        if (!this.adjacentChestChecked)
+        /*if (!this.adjacentChestChecked)
         {
             this.adjacentChestChecked = true;
             this.adjacentChestZNeg = null;
@@ -329,8 +329,8 @@ public class TileEntityChestDeep extends TileEntity implements IInventory
             {
                 this.adjacentChestXNeg.func_145978_a(this, 3);
             }
-        }
-    }*/
+        }*/
+    }
 
     private boolean func_145977_a(int p_145977_1_, int p_145977_2_, int p_145977_3_)
     {
@@ -348,7 +348,7 @@ public class TileEntityChestDeep extends TileEntity implements IInventory
     public void updateEntity()
     {
         super.updateEntity();
-        //this.checkForAdjacentChests();
+        this.checkForAdjacentChests();
         ++this.ticksSinceSync;
         float f;
 

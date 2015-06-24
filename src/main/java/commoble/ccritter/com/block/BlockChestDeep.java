@@ -79,7 +79,7 @@ public class BlockChestDeep extends BlockContainer
      */
     public int getRenderType()
     {
-        return 22;
+        return -1;
     }
 
     /**
@@ -115,7 +115,7 @@ public class BlockChestDeep extends BlockContainer
     public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
     {
         super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
-        this.func_149954_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
+        //this.func_149954_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
         /*Block block = p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_ - 1);
         Block block1 = p_149726_1_.getBlock(p_149726_2_, p_149726_3_, p_149726_4_ + 1);
         Block block2 = p_149726_1_.getBlock(p_149726_2_ - 1, p_149726_3_, p_149726_4_);
@@ -174,38 +174,38 @@ public class BlockChestDeep extends BlockContainer
             b0 = 4;
         }
 
-        /*if (block != this && block1 != this && block2 != this && block3 != this)
+        //if (block != this && block1 != this && block2 != this && block3 != this)
         {
             world.setBlockMetadataWithNotify(x, y, z, b0, 3);
-        }*/
+        }
         /*else
         {
             if ((block == this || block1 == this) && (b0 == 4 || b0 == 5))
             {
                 if (block == this)
                 {
-                    p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_ - 1, b0, 3);
+                    world.setBlockMetadataWithNotify(x, y, z - 1, b0, 3);
                 }
                 else
                 {
-                    p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_ + 1, b0, 3);
+                    world.setBlockMetadataWithNotify(x, y, z + 1, b0, 3);
                 }
 
-                p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, b0, 3);
+                world.setBlockMetadataWithNotify(x, y, z, b0, 3);
             }
 
             if ((block2 == this || block3 == this) && (b0 == 2 || b0 == 3))
             {
                 if (block2 == this)
                 {
-                    p_149689_1_.setBlockMetadataWithNotify(p_149689_2_ - 1, p_149689_3_, p_149689_4_, b0, 3);
+                    world.setBlockMetadataWithNotify(x - 1, y, z, b0, 3);
                 }
                 else
                 {
-                    p_149689_1_.setBlockMetadataWithNotify(p_149689_2_ + 1, p_149689_3_, p_149689_4_, b0, 3);
+                    world.setBlockMetadataWithNotify(x + 1, y, z, b0, 3);
                 }
 
-                p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, b0, 3);
+                world.setBlockMetadataWithNotify(x, y, z, b0, 3);
             }
         }*/
 
@@ -215,14 +215,14 @@ public class BlockChestDeep extends BlockContainer
         }
     }
 
-    public void func_149954_e(World p_149954_1_, int p_149954_2_, int p_149954_3_, int p_149954_4_)
+    /*public void func_149954_e(World world, int x, int y, int z)
     {
-        if (!p_149954_1_.isRemote)
+        if (!world.isRemote)
         {
-            Block block = p_149954_1_.getBlock(p_149954_2_, p_149954_3_, p_149954_4_ - 1);
-            Block block1 = p_149954_1_.getBlock(p_149954_2_, p_149954_3_, p_149954_4_ + 1);
-            Block block2 = p_149954_1_.getBlock(p_149954_2_ - 1, p_149954_3_, p_149954_4_);
-            Block block3 = p_149954_1_.getBlock(p_149954_2_ + 1, p_149954_3_, p_149954_4_);
+            Block block = world.getBlock(x, y, z - 1);
+            Block block1 = world.getBlock(x, y, z + 1);
+            Block block2 = world.getBlock(x - 1, y, z);
+            Block block3 = world.getBlock(x + 1, y, z);
             boolean flag = true;
             int l;
             Block block4;
@@ -232,9 +232,9 @@ public class BlockChestDeep extends BlockContainer
             byte b0;
             int j1;
 
-            //if (block != this && block1 != this)
+            if (block != this && block1 != this)
             {
-                //if (block2 != this && block3 != this)
+                if (block2 != this && block3 != this)
                 {
                     b0 = 3;
 
@@ -258,7 +258,7 @@ public class BlockChestDeep extends BlockContainer
                         b0 = 4;
                     }
                 }
-                /*else
+                else
                 {
                     l = block2 == this ? p_149954_2_ - 1 : p_149954_2_ + 1;
                     block4 = p_149954_1_.getBlock(l, p_149954_3_, p_149954_4_ - 1);
@@ -290,9 +290,9 @@ public class BlockChestDeep extends BlockContainer
                     {
                         b0 = 2;
                     }
-                }*/
+                }
             }
-            /*else
+            else
             {
                 l = block == this ? p_149954_4_ - 1 : p_149954_4_ + 1;
                 block4 = p_149954_1_.getBlock(p_149954_2_ - 1, p_149954_3_, l);
@@ -324,11 +324,11 @@ public class BlockChestDeep extends BlockContainer
                 {
                     b0 = 4;
                 }
-            }*/
+            }
 
-            p_149954_1_.setBlockMetadataWithNotify(p_149954_2_, p_149954_3_, p_149954_4_, b0, 3);
+            world.setBlockMetadataWithNotify(x, y, z, b0, 3);
         }
-    }
+    }*/
 
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
@@ -374,12 +374,12 @@ public class BlockChestDeep extends BlockContainer
     public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
     {
         super.onNeighborBlockChange(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
-        /*TileEntityChestDeep te = (TileEntityChestDeep)p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_, p_149695_4_);
+        TileEntityChestDeep te = (TileEntityChestDeep)p_149695_1_.getTileEntity(p_149695_2_, p_149695_3_, p_149695_4_);
 
         if (te != null)
         {
             te.updateContainingBlockInfo();
-        }*/
+        }
     }
 
     public void breakBlock(World world, int x, int y, int z, Block block, int p_149749_6_)

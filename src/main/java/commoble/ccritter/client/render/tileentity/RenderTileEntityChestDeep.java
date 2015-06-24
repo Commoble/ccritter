@@ -39,20 +39,20 @@ public class RenderTileEntityChestDeep extends TileEntitySpecialRenderer
             Block block = te.getBlockType();
             i = te.getBlockMetadata();
 
-            if (block instanceof BlockChestDeep && i == 0)
-            {	// not doing large chest, remove this part
-                /*try
+            /*if (block instanceof BlockChestDeep && i == 0)
+            {
+                try
                 {
                 ((BlockChestDeep)block).func_149954_e(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
                 }
                 catch (ClassCastException e)
                 {
                     FMLLog.severe("Attempted to render a chest at %d,  %d, %d that was not a chest", te.xCoord, te.yCoord, te.zCoord);
-                }*/
+                }
                 i = te.getBlockMetadata();
             }
 
-            //te.checkForAdjacentChests();
+            //te.checkForAdjacentChests();*/
         }
 
         if (te.adjacentChestZNeg == null && te.adjacentChestXNeg == null)
