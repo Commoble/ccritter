@@ -40,6 +40,14 @@ public class EntityAISpin extends EntityAIBase
 	public void updateTask()
 	{
 		this.ent.rotationYaw += spin;
+		if (this.ent.rotationYaw >= 360F)
+		{
+			this.ent.rotationYaw -= 360F;
+		}
+		else if (this.ent.rotationYaw < 0)
+		{
+			this.ent.rotationYaw += 360F;
+		}
 		if (this.timer > 0)
 		{
 			this.timer--;

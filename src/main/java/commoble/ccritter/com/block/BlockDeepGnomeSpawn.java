@@ -27,6 +27,8 @@ public class BlockDeepGnomeSpawn extends Block
         this.setBlockTextureName("stone");
         this.setBlockName("deepGnomeSpawnBlock");
         this.setTickRandomly(true);
+        this.setHardness(1.5F);
+        this.setResistance(10F);
 	}
 
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)

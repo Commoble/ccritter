@@ -140,21 +140,38 @@ public class EntityGnomeDeep extends EntityGnome
 		// find a suitable block to mine
 		// start with the direction looking at
 		Vec3 vec = this.getLookVec();	// sqrt(vecx^2 + vecy^2 + vecz^2) = 1
+		
+		int xrand = this.getRNG().nextInt(4);
+		if (xrand == 0) vec.xCoord += 2.0D;
+		if (xrand == 1) vec.xCoord -= 2.0D;
+		
+		int yrand = this.getRNG().nextInt(16);
+		if (yrand == 0) vec.yCoord += 2.0D;
+		else if (yrand == 1) vec.yCoord -= 2.0D;
+		else if (yrand == 3) vec.yCoord += 1.0D;
+		else if (yrand == 4) vec.yCoord -= 1.0D;
+		
+		int zrand = this.getRNG().nextInt(4);
+		if (zrand == 0) vec.zCoord += 2.0D;
+		if (zrand == 1) vec.zCoord -= 2.0D;
+		
+		vec.normalize();
+		
 		int xstart = MathHelper.floor_double(this.posX);
 		int ystart = MathHelper.floor_double(this.posY);
 		int zstart = MathHelper.floor_double(this.posZ);
 		int xoff;
 		int yoff;
 		int zoff;
-		for (int i=1; i<10; i++)
+		for (int i=1; i<16; i++)
 		{	// iterate along line of sight
 			// +x (facing south) if yaw<180
 			// -z (facing west) if 90 <= yaw < 270
 			//int xsign = (this.rotationYaw < 180) ? 1 : -1;
 			//int zsign = (this.rotationYaw >= 90 && this.rotationYaw < 270) ? -1 : 1;
-			xoff = MathHelper.floor_double((vec.xCoord)*i);
-			yoff = MathHelper.floor_double((vec.yCoord)*i + 0.5);
-			zoff = MathHelper.floor_double((vec.zCoord)*i);
+			xoff = MathHelper.floor_double((vec.xCoord)*(i*0.5D));
+			yoff = MathHelper.floor_double((vec.yCoord)*(i*0.5D) + 0.5);
+			zoff = MathHelper.floor_double((vec.zCoord)*(i*0.5D));
 			
 			int xend = xstart + xoff;
 			int yend = ystart + yoff;
@@ -172,7 +189,7 @@ public class EntityGnomeDeep extends EntityGnome
 			{
 				return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xend, yend, zend, Blocks.air), blockcheck, EnumAssignType.HARVEST));
 			}	// if this is an air block, check for nearby mineable
-			else if (blockcheck == Blocks.air)
+			/*else if (blockcheck == Blocks.air)
 			{
 				// get random directions and check two
 				ForgeDirection[] dirs = DirectionUtil.getRandomizedDirections(this.rand, false);
@@ -195,8 +212,8 @@ public class EntityGnomeDeep extends EntityGnome
 						return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xcheck, ycheck, zcheck, Blocks.air), blockcheck2, EnumAssignType.HARVEST));
 					}
 				}
-			}
-			else if (blockcheck.getCollisionBoundingBoxFromPool(this.worldObj, xend, yend, zend) != null)	// any other solid block, stop looking
+			}*/
+			else if (blockcheck.getCollisionBoundingBoxFromPool(this.worldObj, xend, yend, zend) != null && blockcheck != CommonProxy.deepChest)	// any other solid block, stop looking
 			{
 				return null;
 			}
