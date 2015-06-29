@@ -177,7 +177,7 @@ public class CommonProxy
 				BiomeGenBase biome = BiomeGenBase.getBiomeGenArray()[i];
 	        	if (biome != null)
 	        	{
-	        		EntityRegistry.addSpawn(EntityAnuranth.class, 10, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
+	        		//EntityRegistry.addSpawn(EntityAnuranth.class, 10, 3, 5, EnumCreatureType.creature, BiomeGenBase.getBiomeGenArray()[i]);
 	        		if (biome.rainfall >= 0.39F && biome.temperature >= 0.49F && !BiomeGenOcean.class.isAssignableFrom(biome.getClass()))
 	        		{
 		        		EntityRegistry.addSpawn(EntityAnuranth.class, 8, 3, 5, EnumCreatureType.waterCreature, biome);

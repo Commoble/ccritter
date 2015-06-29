@@ -168,11 +168,11 @@ public class EntityGnomeDeep extends EntityGnome
 				return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xend, yend, zend, Blocks.air), blockcheck, EnumAssignType.HARVEST));
 			}
 			// if this block is a stone block, grab it even if no chest
-			if (this.worldObj.getBlock(xend, yend, zend) == Blocks.stone)
+			if (blockcheck == Blocks.stone)
 			{
 				return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xend, yend, zend, Blocks.air), blockcheck, EnumAssignType.HARVEST));
 			}	// if this is an air block, check for nearby mineable
-			else if (this.worldObj.getBlock(xend, yend, zend) == Blocks.air)
+			else if (blockcheck == Blocks.air)
 			{
 				// get random directions and check two
 				ForgeDirection[] dirs = DirectionUtil.getRandomizedDirections(this.rand, false);
@@ -182,21 +182,21 @@ public class EntityGnomeDeep extends EntityGnome
 					int ycheck = yend + dirs[j].offsetY;
 					int zcheck = zend + dirs[j].offsetZ;
 					
-					blockcheck = this.worldObj.getBlock(xcheck, ycheck, zcheck);
+					Block blockcheck2 = this.worldObj.getBlock(xcheck, ycheck, zcheck);
 					
 					// if block is generic mineable and the gnome has a chest, grab it
-					if (this.hasChest && MobbableBlock.isMineableBlock(blockcheck, this.worldObj))
+					if (this.hasChest && MobbableBlock.isMineableBlock(blockcheck2, this.worldObj))
 					{
-						return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xcheck, ycheck, zcheck, Blocks.air), blockcheck, EnumAssignType.HARVEST));
+						return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xcheck, ycheck, zcheck, Blocks.air), blockcheck2, EnumAssignType.HARVEST));
 					}
 					// if this block is a stone block, grab it even if no chest
-					if (blockcheck == Blocks.stone)
+					if (blockcheck2 == Blocks.stone)
 					{
-						return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xcheck, ycheck, zcheck, Blocks.air), blockcheck, EnumAssignType.HARVEST));
+						return new JobSetBlock(this, new GnomeAssignment(new BlockLocator(xcheck, ycheck, zcheck, Blocks.air), blockcheck2, EnumAssignType.HARVEST));
 					}
 				}
 			}
-			else	// any other solid block, stop looking
+			else if (blockcheck.getCollisionBoundingBoxFromPool(this.worldObj, xend, yend, zend) != null)	// any other solid block, stop looking
 			{
 				return null;
 			}
