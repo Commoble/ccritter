@@ -72,7 +72,7 @@ public class EntityAnuranth extends EntityMob implements IPredator
         	this.tasks.addTask(4, new EntityAIPredatorBreed(this));
         this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
+        //this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAIPredate(this, EntityPlayer.class, 0, false));
         if (CCPMod.proxy.anuranths_hunt)

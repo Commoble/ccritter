@@ -1,11 +1,14 @@
 package commoble.ccritter.com.entity.gnome;
 
+import java.util.Stack;
+
 import commoble.ccritter.com.entity.ai.job.Job;
 import commoble.ccritter.com.util.GnomeAssignment;
 import commoble.ccritter.com.util.IntLoc;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -15,13 +18,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
-public abstract class EntityGnome extends EntityCreature implements IGnome
+public abstract class EntityGnome extends EntityCreature
 {
 	//public EntityGnode assignedGnode;
 	public boolean needsFreshGnode;	// whether a new Gnode needs to be created
 	//public Vec3 gnodeVec;	// location of assigned Gnode
 	//public GnomeAssignment assignment;	// the (x,y,z,id) assigned to this gnome
 	public Job job;
+	public boolean canMineFreely;
 	
 	// datawatcher ids
 	public static final int carryDataId = 16;
@@ -35,6 +39,7 @@ public abstract class EntityGnome extends EntityCreature implements IGnome
         //this.gnodeVec = null;
         //this.assignment = null;
         this.job = null;
+        this.canMineFreely = false;
 	}
 	
 	@Override
@@ -127,7 +132,23 @@ public abstract class EntityGnome extends EntityCreature implements IGnome
      */
     protected abstract Job getNewJob();
     
-    public abstract void finishSetBlock(GnomeAssignment assign, boolean finished);
+    /**
+     * Called when a Job ends, regardless of whether it was successfully completed
+     * @param assign The job's assignment data
+     * @param finished Whether the job site was reached
+     * @param mismatch if the job site was reached but failed due to block mismatch, this will be true, false in any other case
+     */
+    public abstract void finishSetBlock(GnomeAssignment assign, boolean finished, boolean mismatch);
+    
+    /**
+     * This function is called when the gnome successfully finishes a JobChestFill. Coordinates are the
+     * coordinates of the chest, stack is the ItemStack in the chest that was added to 
+     * If chest is full, success is FALSE and contents do not change
+     */
+    public void onPlaceItemInChest(int x, int y, int z, ItemStack stack, boolean success)
+    {
+    	return;
+    }
     
     //public abstract boolean canAlterBlock(int id);
 
@@ -221,5 +242,19 @@ public abstract class EntityGnome extends EntityCreature implements IGnome
 	public boolean canDespawn()
 	{
 		return false;
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt)
+	{
+		super.readEntityFromNBT(nbt);
+		this.setCarried(Block.getBlockById(nbt.getInteger("carriedBlock")));
+	}
+	
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt)
+	{
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("carriedBlock", Block.getIdFromBlock(this.getCarried()));
 	}	
 }

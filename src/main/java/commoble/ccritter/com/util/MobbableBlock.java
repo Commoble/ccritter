@@ -9,6 +9,7 @@ public class MobbableBlock
 	static boolean softBlocks[];
 	static boolean mischiefBlocks[];
 	static boolean unsafeBlocks[];
+	static boolean mineBlocks[];
 	
 	public static boolean isSoftBlock(Block block, World world)
 	{
@@ -20,6 +21,23 @@ public class MobbableBlock
 		else
 		{
 			return softBlocks[id];
+		}
+	}
+	
+	public static boolean isMineableBlock(Block block, World world)
+	{
+		int id = Block.getIdFromBlock(block);
+		if (id > 256 || !world.getGameRules().getGameRuleBooleanValue("mobGriefing"))
+		{
+			return false;
+		}
+		else
+		{
+			if (softBlocks[id])
+			{
+				return softBlocks[id];
+			}
+			return mineBlocks[id];
 		}
 	}
 	
@@ -73,5 +91,16 @@ public class MobbableBlock
     	unsafeBlocks[Block.getIdFromBlock(Blocks.flowing_lava)] = true;
     	unsafeBlocks[Block.getIdFromBlock(Blocks.lava)] = true;
     	unsafeBlocks[Block.getIdFromBlock(Blocks.fire)] = true;
+    	
+    	mineBlocks = new boolean[256];
+    	mineBlocks[Block.getIdFromBlock(Blocks.stone)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.gold_ore)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.iron_ore)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.coal_ore)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.lapis_ore)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.diamond_ore)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.redstone_ore)] = true;
+    	mineBlocks[Block.getIdFromBlock(Blocks.emerald_ore)] = true;
+    	
     }
 }

@@ -125,7 +125,7 @@ public abstract class TileEntityGnode extends TileEntity
 	 * (regardless of whether the gnome successfully completed it)
 	 * @param finished = set to true to return to blueprint, false to return to assign queue
 	 */
-	public void endAssignment(GnomeAssignment assign, boolean finished)
+	public void endAssignment(GnomeAssignment assign, boolean finished, boolean mismatch)
 	{
 		if (finished)
 		{

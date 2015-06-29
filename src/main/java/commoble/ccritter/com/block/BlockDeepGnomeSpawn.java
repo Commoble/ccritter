@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import commoble.ccritter.com.CCPMod;
+import commoble.ccritter.com.CommonProxy;
 import commoble.ccritter.com.item.ItemCCMonsterPlacer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -57,6 +58,11 @@ public class BlockDeepGnomeSpawn extends Block
     {
 		//System.out.println(x + ", " + y + ", " + z);
     	// this checks a single random side for airness
+    	// the block takes a while for the gnome to spawn so an observant player has time to find it
+    	if (!CommonProxy.spawn_deep_gnomes || rand.nextInt(30) != 0)
+    	{	// with this random check, the side check, and blocks having a 3/4096 chance of being ticked every tick,
+    		return;		// about a 25% chance in a given hour for a spawner block to spawn a gnome if only one side is exposed
+    	}				// closer to 60% for a block with all sides exposed
     	int side = rand.nextInt(6);
     	int xoff = (side % 3 == 0) ? (side / 2 == 0 ? 1 : -1) : 0;
     	int yoff = (side % 3 == 1) ? (side / 2 == 0 ? 1 : -1) : 0;

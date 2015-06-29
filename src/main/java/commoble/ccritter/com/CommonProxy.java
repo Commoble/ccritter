@@ -78,8 +78,7 @@ public class CommonProxy
 		
 		// entity options
 		conf = config.get("Creature: Anuranths", "spawn_anuranths", true);
-		conf.comment = "Set this to false to prevent anuranths from spawning\n" +
-			"Warning! Changing this may cause BAD THINGS to happen to any current worlds";
+		conf.comment = "Set this to false to prevent anuranths from spawning";
 		CommonProxy.spawn_anuranths = conf.getBoolean(true);
 		conf = config.get("Creature: Anuranths", "anuranths_dig", true);
 		conf.comment = "Set this to false to prevent anuranths from digging holes in underwater dirt";
@@ -92,11 +91,11 @@ public class CommonProxy
 		CommonProxy.anuranths_breed = conf.getBoolean(true);
 		
 		conf = config.get("Creature: Gnomes", "spawn_wood_gnomes", true);
-		conf.comment = "Set this to false to prevent wood gnomes from spawning (existing worlds -> bad things, etc.)";
+		conf.comment = "Set this to false to prevent wood gnomes from spawning";
 		CommonProxy.spawn_wood_gnomes = conf.getBoolean(true);
 		
 		conf = config.get("Creature: Gnomes", "spawn_deep_gnomes", true);
-		conf.comment = "Set this to false to prevent deep gnomes from spawning (existing worlds -> bad things, etc.)";
+		conf.comment = "Set this to false to prevent deep gnomes from spawning";
 		CommonProxy.spawn_deep_gnomes = conf.getBoolean(true);
 		
 		config.save();

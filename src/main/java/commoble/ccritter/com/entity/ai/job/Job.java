@@ -164,7 +164,13 @@ public abstract class Job
 		return this.groundify(ent.worldObj, vecRand);
 	}
 	
-	public Vec3 groundify(World world, Vec3 vec)
+	/**
+	 * Alters the vector's y-coordinate to be on the next air block touching a non-air block below it,
+	 * using the same x- and z-coordinates
+	 * searches up first, then down
+	 * ALTERS THE PASSED VECTOR. Also returns it.
+	 */
+	public static Vec3 groundify(World world, Vec3 vec)
 	{
 		if (vec == null)
 		{
@@ -195,5 +201,44 @@ public abstract class Job
 		
 		vec.yCoord = ytemp;
 		return vec;
+	}
+	
+	/**
+	 * Alters the location's y-coordinate to be on the next air block touching a non-air block below it,
+	 * using the same x- and z-coordinates
+	 * searches up first, then down
+	 * ALTERS THE PASSED INTLOC. Also returns it.
+	 */
+	public static IntLoc groundify(World world, IntLoc loc)
+	{
+		if (loc == null)
+		{
+			return null;
+		}
+		
+		int xtemp = loc.x;
+		int ytemp = loc.y;
+		int ztemp = loc.z;
+		
+		if (ytemp < 2)
+		{
+			ytemp = 2;
+		}
+		if (ytemp > 255)
+		{
+			ytemp = 255;
+		}
+
+		while (world.isAirBlock(xtemp, ytemp-1, ztemp) && ytemp > 2)
+		{
+			ytemp--;
+		}
+		while (!world.isAirBlock(xtemp, ytemp, ztemp) && ytemp < 255)
+		{
+			ytemp++;
+		}
+		
+		loc.y = ytemp;
+		return loc;
 	}
 }

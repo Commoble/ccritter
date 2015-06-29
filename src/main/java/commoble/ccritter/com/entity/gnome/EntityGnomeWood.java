@@ -35,8 +35,9 @@ public class EntityGnomeWood extends EntityGnome
 	public TileEntityGnode gnode;
 	public IntLoc homeloc = null;
 	public boolean panic;
+	public static final int INVENTORY_MAX = 27;
+	public ItemStack[] inventory = new ItemStack[INVENTORY_MAX];
 	//public boolean hasChest;
-	public ItemStack[] inventory = new ItemStack[27];
 
 	public EntityGnomeWood(World par1World)
 	{
@@ -53,20 +54,20 @@ public class EntityGnomeWood extends EntityGnome
         //this.tasks.addTask(4, new EntityAIPerformGnomeAssignment(this, 1.0));
         this.tasks.addTask(5, new EntityAIPerformJob(this));
         this.tasks.addTask(6, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        //this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
+       // this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        //this.tasks.addTask(9, new EntityAILookIdle(this));
         
         this.gnode = null;
         this.panic = false;
         //this.hasChest = false;
 	}
 	
-	public void finishSetBlock(GnomeAssignment assign, boolean finished)
+	public void finishSetBlock(GnomeAssignment assign, boolean finished, boolean mismatch)
 	{
 		if (this.gnode != null)
 		{
-			this.gnode.endAssignment(assign, finished);
+			this.gnode.endAssignment(assign, finished, mismatch);
 		}
 	}
 
@@ -243,7 +244,6 @@ public class EntityGnomeWood extends EntityGnome
 		
 
 		// read inventory data
-		this.setCarried(Block.getBlockById(nbt.getInteger("carriedBlock")));
         NBTTagList nbttaglist = nbt.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         this.inventory = new ItemStack[27];
 
@@ -277,7 +277,6 @@ public class EntityGnomeWood extends EntityGnome
 		
 
 		// write inventory data
-		nbt.setInteger("carriedBlock", Block.getIdFromBlock(this.getCarried()));
         NBTTagList nbttaglist = new NBTTagList();
         for (int i = 0; i < this.inventory.length; ++i)
         {
