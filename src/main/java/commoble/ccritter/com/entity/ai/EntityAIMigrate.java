@@ -34,11 +34,11 @@ public class EntityAIMigrate extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (this.pred.getHungerValue() < 15)
+        if (this.entity.getAttackTarget() != null)// || (this.pred.getHungerValue() < this.pred.getVeryHungryThreshold()))
         {
         	return false;
         }
-        else if (this.entity.getRNG().nextInt(60) != 0)
+        else if (this.entity.getRNG().nextInt(20) != 0)
         {
             return false;
         }

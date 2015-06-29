@@ -1,6 +1,7 @@
 package commoble.ccritter.com.entity.ai;
 
 import commoble.ccritter.com.CCPMod;
+import commoble.ccritter.com.entity.monster.EntityAnuranth;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -11,9 +12,9 @@ import net.minecraft.world.World;
 public class EntityAIDiving extends EntityAIBase
 {
 	private static boolean canDigBlocks[];
-    private EntityLiving theEntity;
+    private EntityAnuranth theEntity;
 
-    public EntityAIDiving(EntityLiving par1EntityLiving)
+    public EntityAIDiving(EntityAnuranth par1EntityLiving)
     {
         this.theEntity = par1EntityLiving;
         this.setMutexBits(4);
@@ -26,7 +27,7 @@ public class EntityAIDiving extends EntityAIBase
     public boolean shouldExecute()
     {
         return this.theEntity.isInWater() &&
-        		this.theEntity.getAttackTarget() == null;
+        		this.theEntity.getAttackTarget() == null && this.theEntity.getHungerValue() < this.theEntity.getVeryHungryThreshold();
     }
 
     /**
