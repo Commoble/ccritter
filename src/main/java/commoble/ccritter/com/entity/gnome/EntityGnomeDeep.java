@@ -46,6 +46,7 @@ public class EntityGnomeDeep extends EntityGnome
 	public IntLoc chest;	// location of this gnome's Deep Chest
 	public boolean hasChest;	// mostly important for NBT save/load
 	private int mineTimeOut;
+	public int chestTries;
 	public Stack<EntityItem> droppedItems;	// list of items the gnome dropped and needs to pick up
 	
 	public EntityGnomeDeep(World par1World)
@@ -69,6 +70,7 @@ public class EntityGnomeDeep extends EntityGnome
         //this.tasks.addTask(9, new EntityAILookIdle(this));
         
         this.mineTimeOut = 0;
+        this.chestTries = 0;
         this.chest = null;
         this.hasChest = false;
         this.canMineFreely = true;
@@ -276,6 +278,10 @@ public class EntityGnomeDeep extends EntityGnome
 		{
 			this.hasChest = false;
 			this.chest = null;
+		}
+		else
+		{
+			this.chestTries = 0;
 		}
 		if (stack != null && stack.getItem() == Blocks.stone.getItem(this.worldObj, x, y, z) && stack.stackSize >= 64)
 		{

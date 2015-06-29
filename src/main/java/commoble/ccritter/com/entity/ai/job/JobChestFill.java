@@ -48,6 +48,14 @@ public class JobChestFill extends Job
 	{
 		if (!near)	// job failed
 		{
+			this.deepgnome.chestTries++;
+			if (this.deepgnome.chestTries > 20)
+			{
+				this.deepgnome.chest = null;
+				this.deepgnome.hasChest = false;
+				this.deepgnome.chestTries = 0;
+				return;
+			}
 			if (this.gnome.canMineFreely)
 			{
 				// get next block between gnome and chest
