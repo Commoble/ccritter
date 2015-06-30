@@ -12,6 +12,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -341,6 +342,25 @@ public class EntityGnomeDeep extends EntityGnome
     	{
     		this.mineTimeOut--;
     	}
+    }
+
+    /**
+     * Drop 0-2 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
+     * par2 - Level of Looting used to kill this mob.
+     */
+    protected void dropFewItems(boolean par1, int loot)
+    {
+    	Block carried = this.getCarried();
+    	int stonecount = this.rand.nextInt(1 + loot) + (carried == Blocks.stone ? 2 : 1);
+
+        for (int k = 0; k < stonecount; ++k)
+        {	// 2 = green
+        	this.entityDropItem(new ItemStack(Blocks.stone, 1), 0.0F);
+        }
+        if (carried != Blocks.stone)	// stone blocks are already accounted for
+        {
+        	this.entityDropItem(new ItemStack(carried, 1), 0.0F);
+        }
     }
 	
 	@Override

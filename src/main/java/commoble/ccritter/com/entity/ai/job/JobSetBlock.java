@@ -2,6 +2,7 @@ package commoble.ccritter.com.entity.ai.job;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import commoble.ccritter.com.entity.gnome.EntityGnome;
 import commoble.ccritter.com.util.EnumAssignType;
 import commoble.ccritter.com.util.GnomeAssignment;
@@ -41,6 +42,7 @@ public class JobSetBlock extends Job
 					}
 					
 					this.gnome.worldObj.setBlock(x,y,z, newblock);
+					newblock.onBlockPlacedBy(this.gnome.worldObj, x, y, z, this.gnome, new ItemStack(newblock,1));
 					this.gnome.finishSetBlock(this.assign, true, false);					
 				}
 			}
