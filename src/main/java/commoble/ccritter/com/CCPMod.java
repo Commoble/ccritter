@@ -17,7 +17,7 @@ public class CCPMod
 	public static CCPMod instance = new CCPMod();
 
     public static final String MODID = "ccritter";
-    public static final String VERSION = "1.7.10-0.3.1";
+    public static final String VERSION = "1.7.10-0.3.2";
     public static final String NAME = "CCritter";
     
     @SidedProxy(clientSide="commoble.ccritter.client.CombinedClientProxy", serverSide="commoble.ccritter.server.DedicatedServerProxy")
