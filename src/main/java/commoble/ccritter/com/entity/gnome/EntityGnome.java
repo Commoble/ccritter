@@ -7,6 +7,7 @@ import commoble.ccritter.com.util.GnomeAssignment;
 import commoble.ccritter.com.util.IntLoc;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -242,6 +243,20 @@ public abstract class EntityGnome extends EntityCreature
 	public boolean canDespawn()
 	{
 		return false;
+	}
+	
+	@Override
+	public EntityLivingBase getAITarget()
+	{
+		// this is mostly used for entityaifleefrom
+		if (this.isBurning())
+		{
+			return this;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	@Override
