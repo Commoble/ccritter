@@ -12,10 +12,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityNeverPortal extends TileEntityWithCubicModel
 {
-	private int portalTimer;
+	public int portalTimer;
 	private final static int portalTickAdd = 5;
-	private final static int maxPortalTimeInSeconds = 3;
-	private final static int maxPortalTime = (maxPortalTimeInSeconds * 20 * (portalTickAdd));
+	private final static int maxPortalTime = 20;
+	public final static int portalResetTime = -200;
 	//private boolean[] renderOnSide;	// false if side should not be rendered
 	public int sidesIdentifier;
 	public boolean needsNeighborCheck;
@@ -24,7 +24,7 @@ public class TileEntityNeverPortal extends TileEntityWithCubicModel
 	{
 		super();
 		
-		this.portalTimer = 0;
+		this.portalTimer = portalResetTime;
 		this.sidesIdentifier = 0;
 		this.needsNeighborCheck = true;
 	}
@@ -41,9 +41,6 @@ public class TileEntityNeverPortal extends TileEntityWithCubicModel
 				this.sidesIdentifier += (1 << side);
 			}
 		}
-		System.out.println(xCoord);
-		System.out.println(yCoord);
-		System.out.println(zCoord);
 		CommonProxy.network.sendToAll(new PacketPortalRender(this.xCoord, this.yCoord, this.zCoord, this.sidesIdentifier));
 		this.needsNeighborCheck = false;
 	}
@@ -54,6 +51,10 @@ public class TileEntityNeverPortal extends TileEntityWithCubicModel
 		if (this.portalTimer > 0)
 		{
 			this.portalTimer--;
+		}
+		else if (this.portalTimer < 0)
+		{
+			this.portalTimer++;
 		}
 		if (this.needsNeighborCheck)
 		{
@@ -71,7 +72,7 @@ public class TileEntityNeverPortal extends TileEntityWithCubicModel
 			this.portalTimer += portalTickAdd;
 			if (portalTimer > maxPortalTime)
 			{
-				this.portalTimer = 0;
+				this.portalTimer = portalResetTime;
 				if (player.dimension != CommonProxy.neverwhereDimID)	// going to Neverwhere
 				{
 					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, dim,

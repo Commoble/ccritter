@@ -18,6 +18,7 @@ import commoble.ccritter.com.item.DGSBItemBlock;
 import commoble.ccritter.com.item.ItemCCMonsterPlacer;
 import commoble.ccritter.com.world.WorldGenManager;
 import commoble.ccritter.com.world.WorldProviderNeverwhere;
+import commoble.ccritter.event.EventHandler;
 import commoble.ccritter.network.PacketPortalRender;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
@@ -130,6 +131,7 @@ public class CommonProxy
 		DimensionManager.registerProviderType(neverwhereDimID, WorldProviderNeverwhere.class, false);
 		DimensionManager.registerDimension(neverwhereDimID, neverwhereDimID);
 		GameRegistry.registerWorldGenerator(worldgenmanager, 0);
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 	}
 	 
 	/**

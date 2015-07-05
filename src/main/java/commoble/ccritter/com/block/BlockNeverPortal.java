@@ -1,5 +1,7 @@
 package commoble.ccritter.com.block;
 
+import java.util.Random;
+
 import commoble.ccritter.com.CommonProxy;
 import commoble.ccritter.com.block.tileentity.TileEntityNeverPortal;
 import commoble.ccritter.com.world.TeleporterNeverwhere;
@@ -130,6 +132,13 @@ public class BlockNeverPortal extends BlockPortal implements ITileEntityProvider
         super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
         TileEntity tileentity = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
         return tileentity != null ? tileentity.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
+    {
+    	
     }
 
 	@Override

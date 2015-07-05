@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import commoble.ccritter.com.CommonProxy;
+import commoble.ccritter.com.block.tileentity.TileEntityNeverPortal;
 import commoble.ccritter.com.util.IntLoc;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -73,6 +74,8 @@ public class TeleporterNeverwhere extends Teleporter
         				if (j > 0 && serv.getBlock(i, j, k) == CommonProxy.neverPortal)
         				{
         					list.add(new IntLoc(i, j, k));
+        					TileEntityNeverPortal te = (TileEntityNeverPortal) serv.getTileEntity(i, j, k);
+        					te.portalTimer = te.portalResetTime;
         				}
         			}
         		}
@@ -111,6 +114,7 @@ public class TeleporterNeverwhere extends Teleporter
     				{
     					serv.setBlock(i, j, k, Blocks.air);
     				}
+					serv.markBlockForUpdate(i, j, k);	// this helps turn the lights on
     			}
     		}
     	}
@@ -122,7 +126,26 @@ public class TeleporterNeverwhere extends Teleporter
     
     void generatePortalBlocks(int x, int y, int z, int portalCount)
     {
-    	if (y > 0 && y < serv.getActualHeight()-1 && portalCount != 0 && serv.getBlock(x, y, z) != Blocks.bedrock)
+    	int xWidth = 2;
+    	int yWidth = 4;
+    	int zWidth = 2;
+    	
+    	for (int i = x-xWidth; i <= x+xWidth; i++)
+    	{
+    		for (int j = (y-yWidth > 0 ? y-yWidth : 1); j <= y+yWidth && j < serv.getActualHeight()-1; j++)
+    		{
+    			for (int k = z-zWidth; k <= z+zWidth; k++)
+    			{
+    				if (serv.getBlock(i,  j,  k) != Blocks.bedrock)
+    				{
+    					serv.setBlock(i, j, k, CommonProxy.neverPortal);
+    					//serv.markBlockForUpdate(i, j, k);	// this helps turn the lights on
+    				}
+    			}
+    		}
+    	}
+    	
+    	/*if (y > 0 && y < serv.getActualHeight()-1 && portalCount != 0 && serv.getBlock(x, y, z) != Blocks.bedrock)
     	{
 	    	serv.setBlock(x, y, z, CommonProxy.neverPortal);
 	    	portalCount--;
@@ -163,7 +186,7 @@ public class TeleporterNeverwhere extends Teleporter
     				break;
 	    	}
 	    	generatePortalBlocks(x, y, z, portalCount);
-    	}
+    	}*/
     }
     
     private void placeInDecentSpawnPoint(Entity ent, double xPos, double yPos, double zPos, float miscfloat)

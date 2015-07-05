@@ -2,6 +2,8 @@ package commoble.ccritter.com.world;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderGenerate;
@@ -21,7 +23,7 @@ public class WorldProviderNeverwhere extends WorldProvider
      */
     protected void generateLightBrightnessTable()
     {
-        float f = 0.0F;
+        float f = -0.1F;
 
         for (int i = 0; i <= 15; ++i)
         {
@@ -107,7 +109,34 @@ public class WorldProviderNeverwhere extends WorldProvider
     @SideOnly(Side.CLIENT)
     public double getVoidFogYFactor()
     {
-        return this.terrainType.voidFadeMagnitude();
+        //return this.terrainType.voidFadeMagnitude();
+    	return 0D;
+    }
+    /**
+     * Return Vec3D with biome specific fog color
+     */
+    @SideOnly(Side.CLIENT)
+    public Vec3 getFogColor(float p_76562_1_, float p_76562_2_)
+    {
+        float f2 = MathHelper.cos(p_76562_1_ * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
+
+        if (f2 < 0.0F)
+        {
+            f2 = 0.0F;
+        }
+
+        if (f2 > 1.0F)
+        {
+            f2 = 1.0F;
+        }
+
+        float f3 = 0.7529412F;
+        float f4 = 0.84705883F;
+        float f5 = 1.0F;
+        f3 *= f2 * 0.94F + 0.06F;
+        f4 *= f2 * 0.94F + 0.06F;
+        f5 *= f2 * 0.91F + 0.09F;
+        return Vec3.createVectorHelper(0F, 0F, 0F);
     }
 
     public boolean isDaytime()
@@ -136,5 +165,11 @@ public class WorldProviderNeverwhere extends WorldProvider
     public int getActualHeight()
     {
         return 256;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean isSkyColored()
+    {
+        return false;
     }
 }

@@ -3,9 +3,13 @@ package commoble.ccritter.com;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.AllowDespawn;
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -15,6 +19,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = CCPMod.MODID, name = CCPMod.NAME, version = CCPMod.VERSION)
 public class CCPMod
@@ -79,12 +85,12 @@ public class CCPMod
     	}
     }*/
     
-    @EventHandler
-    public void checkSpawn(LivingSpawnEvent.CheckSpawn event)
+    /*@SubscribeEvent(priority=EventPriority.HIGHEST, receiveCanceled=false)
+    public void allowDespawn(AllowDespawn event)
     {
-    	if (event.world.provider.dimensionId == CommonProxy.neverwhereDimID && !(event.entityLiving instanceof EntityMob))
+    	if (event.world.provider.dimensionId == CommonProxy.neverwhereDimID && (event.entity instanceof EntityCreature) && !(event.entity instanceof EntityMob))
     	{
-    		event.setResult(Result.DENY);
+    		event.setResult(Result.ALLOW);
     	}
-    }
+    }*/
 }

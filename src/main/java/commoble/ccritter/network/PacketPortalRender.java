@@ -17,6 +17,11 @@ public class PacketPortalRender implements IMessage
 	int z;
 	int sides;
 	
+	public PacketPortalRender()
+	{
+		
+	}
+	
 	public PacketPortalRender(int x, int y, int z, int sides)
 	{
 		this.x = x;
@@ -28,19 +33,19 @@ public class PacketPortalRender implements IMessage
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.x = ByteBufUtils.readVarInt(buf, 4);
-		this.y = ByteBufUtils.readVarInt(buf, 4);
-		this.z = ByteBufUtils.readVarInt(buf, 4);
-		this.sides = ByteBufUtils.readVarInt(buf, 4);
+		this.x = buf.readInt();
+		this.y = buf.readInt();
+		this.z = buf.readInt();
+		this.sides = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		ByteBufUtils.writeVarInt(buf, x, 4);
-		ByteBufUtils.writeVarInt(buf, y, 4);
-		ByteBufUtils.writeVarInt(buf, z, 4);
-		ByteBufUtils.writeVarInt(buf, sides, 4);
+		buf.writeInt(x);
+		buf.writeInt(y);
+		buf.writeInt(z);
+		buf.writeInt(sides);
 	}
 
 	public static class Handler implements IMessageHandler<PacketPortalRender, IMessage>
