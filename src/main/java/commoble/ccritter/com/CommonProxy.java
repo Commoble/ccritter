@@ -5,14 +5,20 @@ import commoble.ccritter.com.block.BlockChestGnome;
 import commoble.ccritter.com.block.BlockDeepGnode;
 import commoble.ccritter.com.block.BlockDeepGnomeSpawn;
 import commoble.ccritter.com.block.BlockGnomeCache;
+import commoble.ccritter.com.block.BlockChthonicStatue;
+import commoble.ccritter.com.block.BlockNeverPortal;
 import commoble.ccritter.com.block.tileentity.TileEntityChestDeep;
+import commoble.ccritter.com.block.tileentity.TileEntityChthonicStatue;
 import commoble.ccritter.com.block.tileentity.TileEntityGnomeCache;
+import commoble.ccritter.com.block.tileentity.TileEntityNeverPortal;
 import commoble.ccritter.com.entity.gnome.EntityGnomeDeep;
 import commoble.ccritter.com.entity.gnome.EntityGnomeWood;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
 import commoble.ccritter.com.item.DGSBItemBlock;
 import commoble.ccritter.com.item.ItemCCMonsterPlacer;
 import commoble.ccritter.com.world.WorldGenManager;
+import commoble.ccritter.com.world.WorldProviderNeverwhere;
+import commoble.ccritter.network.PacketPortalRender;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
@@ -24,12 +30,16 @@ import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.biome.BiomeGenSwamp;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy
 {
@@ -52,6 +62,8 @@ public class CommonProxy
 	public static Block deepGnode;
 	public static Block deepGnomeSpawnBlock;
 	public static Block deepChest;
+	public static Block chthonicStatue;
+	public static Block neverPortal;
 	
 	//items
 	public static Item eggGnomeWood;
@@ -60,6 +72,11 @@ public class CommonProxy
 	
 	// other
 	public static WorldGenManager worldgenmanager = new WorldGenManager();
+	
+	public static SimpleNetworkWrapper network;
+	
+	public static int neverwhereDimID = DimensionManager.getNextFreeDimId();
+	
 	
 	private static int modEntityID = 0;
 	
@@ -106,6 +123,12 @@ public class CommonProxy
 		this.registerBlocks();
 		this.registerTileEntities();
 		this.registerEntities();
+		
+		network = NetworkRegistry.INSTANCE.newSimpleChannel(CCPMod.MODID);
+		network.registerMessage(PacketPortalRender.Handler.class, PacketPortalRender.class, 0, Side.CLIENT);
+		
+		DimensionManager.registerProviderType(neverwhereDimID, WorldProviderNeverwhere.class, false);
+		DimensionManager.registerDimension(neverwhereDimID, neverwhereDimID);
 		GameRegistry.registerWorldGenerator(worldgenmanager, 0);
 	}
 	 
@@ -140,15 +163,20 @@ public class CommonProxy
 		
 		CommonProxy.deepChest = new BlockChestDeep(0);
 		GameRegistry.registerBlock(CommonProxy.deepChest, "deepChest");
-
-		//GameRegistry.registerBlock(CommonProxy.deepgnode, "deepgnode");*/
+		
+		CommonProxy.chthonicStatue = new BlockChthonicStatue();
+		GameRegistry.registerBlock(CommonProxy.chthonicStatue, "chthonicStatue");
+		
+		CommonProxy.neverPortal = new BlockNeverPortal();
+		GameRegistry.registerBlock(CommonProxy.neverPortal, "neverPortal");
 	}
 	
 	private void registerTileEntities()
 	{
 		GameRegistry.registerTileEntity(TileEntityGnomeCache.class, "te_gnomecache");
-		
 		GameRegistry.registerTileEntity(TileEntityChestDeep.class, "te_deepchest");
+		GameRegistry.registerTileEntity(TileEntityChthonicStatue.class, "te_cthonicstatue");
+		GameRegistry.registerTileEntity(TileEntityNeverPortal.class, "te_neverportal");
 
 	}
 	
