@@ -49,6 +49,8 @@ public class EntityGnomeDeep extends EntityGnome
 	private int mineTimeOut;
 	public int chestTries;
 	public Stack<EntityItem> droppedItems;	// list of items the gnome dropped and needs to pick up
+	public int timeWithoutChest;
+	private final static int maxTimeWithoutChest = 72000;
 	
 	public EntityGnomeDeep(World par1World)
 	{
@@ -76,6 +78,7 @@ public class EntityGnomeDeep extends EntityGnome
         this.hasChest = false;
         this.canMineFreely = true;
         this.droppedItems = new Stack<EntityItem>();
+        this.timeWithoutChest = 0;
 	}
 	
 	protected void applyEntityAttributes()
@@ -282,6 +285,7 @@ public class EntityGnomeDeep extends EntityGnome
 				this.chest = new IntLoc(assign.loc.x, assign.loc.y, assign.loc.z);
 				this.hasChest = true;
 			}
+			this.timeWithoutChest = 0;
 		}
 		else	// failure
 		{
@@ -308,6 +312,7 @@ public class EntityGnomeDeep extends EntityGnome
     		newgnome.chest = this.chest;
     		newgnome.hasChest = true;
 		}
+		this.timeWithoutChest = 0;
 	}
 
 	/**
@@ -341,6 +346,10 @@ public class EntityGnomeDeep extends EntityGnome
     	if (this.mineTimeOut > 0)
     	{
     		this.mineTimeOut--;
+    	}
+    	if (this.timeWithoutChest < 2*maxTimeWithoutChest)
+    	{
+    		this.timeWithoutChest++;
     	}
     }
 
@@ -401,6 +410,11 @@ public class EntityGnomeDeep extends EntityGnome
 			nbt.setBoolean("hasChest", false);
 		}
 	}
-    
-    
+
+	
+	@Override
+	public boolean canDespawn()
+	{
+		return this.timeWithoutChest >= maxTimeWithoutChest;
+	}
 }

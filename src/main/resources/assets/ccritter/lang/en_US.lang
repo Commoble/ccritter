@@ -3,8 +3,9 @@ tile.gnomeProofChest.name=Wood Gnome Chest
 tile.deepGnomeSpawnBlock.name=Deep Stone
 tile.deepChest.name=Deep Chest
 
-entity.anuranth.name=Anuranth
-entity.gnome_wood.name=Wood Gnome
+entity.ccritter.anuranth.name=Anuranth
+entity.ccritter.gnome_wood.name=Wood Gnome
+entity.ccritter.gnome_wood.name=Deep Gnome
 
 item.spawn_egg_anuranth.name=Spawn Anuranth
 item.spawn_egg_wood_gnome.name=Spawn Wood Gnome
