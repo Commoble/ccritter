@@ -14,6 +14,7 @@ import commoble.ccritter.com.block.tileentity.TileEntityNeverPortal;
 import commoble.ccritter.com.entity.gnome.EntityGnomeDeep;
 import commoble.ccritter.com.entity.gnome.EntityGnomeWood;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
+import commoble.ccritter.com.entity.monster.EntityPhantom;
 import commoble.ccritter.com.item.DGSBItemBlock;
 import commoble.ccritter.com.item.ItemCCMonsterPlacer;
 import commoble.ccritter.com.world.WorldGenManager;
@@ -57,6 +58,8 @@ public class CommonProxy
 	public static boolean spawn_wood_gnomes = true;
 	public static boolean spawn_deep_gnomes = true;
 	
+	public static boolean spawn_phantoms = true;
+	
 	//blocks
 	public static Block gnomeCache;
 	public static Block gnomeProofChest;
@@ -70,6 +73,7 @@ public class CommonProxy
 	public static Item eggGnomeWood;
 	public static Item eggAnuranth;
 	public static Item eggGnomeDeep;
+	public static Item eggPhantom;
 	
 	// other
 	public static WorldGenManager worldgenmanager = new WorldGenManager();
@@ -116,6 +120,10 @@ public class CommonProxy
 		conf = config.get("Creature: Gnomes", "spawn_deep_gnomes", true);
 		conf.comment = "Set this to false to prevent deep gnomes from spawning";
 		CommonProxy.spawn_deep_gnomes = conf.getBoolean(true);
+		
+		conf = config.get("Creature: Phantoms", "spawn_phantoms", true);
+		conf.comment = "Set this to false to prevent phantoms from spawning";
+		CommonProxy.spawn_phantoms = conf.getBoolean(true);
 		
 		config.save();
 		
@@ -219,11 +227,6 @@ public class CommonProxy
 	        	}
 	        }
 		}
-
-		while(EntityList.getStringFromID(entity_id) !=null)
-		{
-			entity_id++;
-		}
 		
 		//registerModEntityWithEgg(EntityGnomeWood.class, "gnome_wood", 0xd3753f, 0x774725);
 		//EntityRegistry.registerGlobalEntityID(EntityGnomeWood.class, "gnome_wood", entity_id, 0xd3753f, 0x774725);
@@ -258,6 +261,12 @@ public class CommonProxy
 	        	EntityRegistry.addSpawn(EntityGnomeDeep.class, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.getBiomeGenArray()[i]);
 	        }
 		}*/
+		
+		EntityRegistry.registerModEntity(EntityPhantom.class,  "phantom", modEntityID++, CCPMod.instance, 80, 3, false);
+		CommonProxy.eggPhantom = new ItemCCMonsterPlacer("phantom", 0xffffff, 0xffffff)
+			.setUnlocalizedName("spawn_egg_phantom")
+			.setTextureName("ccritter:spawn_egg");
+		GameRegistry.registerItem(eggPhantom, "eggPhantom");
 	}
 	
 	/*private int getNextFreeBlockId(int id)

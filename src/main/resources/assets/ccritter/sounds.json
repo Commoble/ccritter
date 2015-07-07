@@ -14,5 +14,23 @@
 		[
 			"mob/gnome_death"
 		]
+	},
+	"mob.phantom.say":
+	{
+		"category": "neutral",
+		"sounds":
+		[
+			"mob/phantom1",
+			"mob/phantom2",
+			"mob/phantom3"
+		]
+	},
+	"mob.phantom.death":
+	{
+		"category": "neutral",
+		"sounds":
+		[
+			"mob/phantomDeath"
+		]
 	}
 }

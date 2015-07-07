@@ -3,10 +3,12 @@ package commoble.ccritter.client;
 import javafx.scene.shape.Sphere;
 import net.minecraftforge.client.MinecraftForgeClient;
 import commoble.ccritter.client.model.ModelAnuranth;
+import commoble.ccritter.client.model.ModelBipedSimple;
 import commoble.ccritter.client.model.ModelGnome;
 import commoble.ccritter.client.render.RenderAnuranth;
 import commoble.ccritter.client.render.RenderGnomeDeep;
 import commoble.ccritter.client.render.RenderGnomeWood;
+import commoble.ccritter.client.render.RenderPhantom;
 import commoble.ccritter.client.render.item.RenderItemChestDeep;
 import commoble.ccritter.client.render.tileentity.RenderTileEntityChestDeep;
 import commoble.ccritter.client.render.tileentity.RenderTileEntityChthonicStatue;
@@ -21,6 +23,7 @@ import commoble.ccritter.com.block.tileentity.TileEntityNeverPortal;
 import commoble.ccritter.com.entity.gnome.EntityGnomeDeep;
 import commoble.ccritter.com.entity.gnome.EntityGnomeWood;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
+import commoble.ccritter.com.entity.monster.EntityPhantom;
 
 /**
 * CombinedClient is used to set up the mod and start it running when installed on a normal minecraft client.
@@ -43,6 +46,7 @@ public class CombinedClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityAnuranth.class, new RenderAnuranth(new ModelAnuranth(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntityGnomeWood.class, new RenderGnomeWood(new ModelGnome(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntityGnomeDeep.class, new RenderGnomeDeep(new ModelGnome(), 0.4F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityPhantom.class, new RenderPhantom(new ModelBipedSimple(), 0.4F));
 
         
         // renderers for special tiles
