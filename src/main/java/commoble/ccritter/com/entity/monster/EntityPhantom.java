@@ -43,8 +43,8 @@ public class EntityPhantom extends EntityMob
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(80.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.6D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3.0D);
     }
 
     /**

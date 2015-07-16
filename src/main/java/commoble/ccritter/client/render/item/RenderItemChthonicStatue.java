@@ -3,7 +3,9 @@ package commoble.ccritter.client.render.item;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import commoble.ccritter.client.model.ModelChthon;
 import commoble.ccritter.com.block.tileentity.TileEntityChestDeep;
+import commoble.ccritter.com.block.tileentity.TileEntityChthonicStatue;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
@@ -11,17 +13,17 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
-public class RenderItemChestDeep implements IItemRenderer
+public class RenderItemChthonicStatue implements IItemRenderer
 {
-    public static TileEntityRendererChestHelper instance = new TileEntityRendererChestHelper();
-    private TileEntityChestDeep chest = new TileEntityChestDeep();
-	private ModelChest model;
-	private ResourceLocation texture = new ResourceLocation("critter:textures/tileentities/deepchest.png");
+    private TileEntityChthonicStatue tile = new TileEntityChthonicStatue();
+	private ModelChthon model;
+	private ResourceLocation texture = new ResourceLocation("critter:textures/tileentities/chthon.png");
 	
-	public RenderItemChestDeep()
+	public RenderItemChthonicStatue()
 	{
-		this.model = new ModelChest();
+		this.model = new ModelChthon();
 	}
 
 	@Override
@@ -49,10 +51,10 @@ public class RenderItemChestDeep implements IItemRenderer
 			renderModel(-1.0F, 0F, 0F);
 			break;
 		case EQUIPPED_FIRST_PERSON:
-			renderModel(-1.0F, 0F, 0F);
+			renderModel(-1.0F, -0.5F, 0F);
 			break;
 		case INVENTORY:
-			renderModel(-0.5F, -0.5F, -0.5F);
+			renderModel(-0.5F, -0.75F, -0.5F);
 			break;
 		default:
 			break;
@@ -65,7 +67,8 @@ public class RenderItemChestDeep implements IItemRenderer
 
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(xoff, yoff, zoff);
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(this.chest, 0.0D, 0.0D, 0.0D, 0.0F);
+        TileEntityRendererDispatcher.instance.renderTileEntityAt(this.tile, 0.0D, 0.0D, 0.0D, 0.0F);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 	}
+
 }

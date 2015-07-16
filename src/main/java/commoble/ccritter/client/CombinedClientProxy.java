@@ -1,6 +1,5 @@
 package commoble.ccritter.client;
 
-import javafx.scene.shape.Sphere;
 import net.minecraftforge.client.MinecraftForgeClient;
 import commoble.ccritter.client.model.ModelAnuranth;
 import commoble.ccritter.client.model.ModelBipedSimple;
@@ -10,6 +9,7 @@ import commoble.ccritter.client.render.RenderGnomeDeep;
 import commoble.ccritter.client.render.RenderGnomeWood;
 import commoble.ccritter.client.render.RenderPhantom;
 import commoble.ccritter.client.render.item.RenderItemChestDeep;
+import commoble.ccritter.client.render.item.RenderItemChthonicStatue;
 import commoble.ccritter.client.render.tileentity.RenderTileEntityChestDeep;
 import commoble.ccritter.client.render.tileentity.RenderTileEntityChthonicStatue;
 import commoble.ccritter.client.render.tileentity.RenderTileEntityNeverPortal;
@@ -54,6 +54,8 @@ public class CombinedClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(CommonProxy.deepChest.getItem(null, 0, 0, 0), new RenderItemChestDeep());
 
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChthonicStatue.class, new RenderTileEntityChthonicStatue());
+        MinecraftForgeClient.registerItemRenderer(CommonProxy.chthonicStatue.getItem(null, 0, 0, 0), new RenderItemChthonicStatue());
+        
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNeverPortal.class, new RenderTileEntityNeverPortal());
         	////MinecraftForgeClient.registerItemRenderer(CommonProxy.chthonicStatue.getItem(null, 0, 0, 0), new RenderItemChestDeep());
         //this.renderChthonic = RenderingRegistry.getNextAvailableRenderId();
