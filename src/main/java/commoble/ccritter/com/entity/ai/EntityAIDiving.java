@@ -2,6 +2,7 @@ package commoble.ccritter.com.entity.ai;
 
 import commoble.ccritter.com.CCPMod;
 import commoble.ccritter.com.entity.monster.EntityAnuranth;
+import commoble.ccritter.com.util.MobbableBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
 
 public class EntityAIDiving extends EntityAIBase
 {
-	private static boolean canDigBlocks[];
+	//private static boolean canDigBlocks[];
     private EntityAnuranth theEntity;
 
     public EntityAIDiving(EntityAnuranth par1EntityLiving)
@@ -61,21 +62,21 @@ public class EntityAIDiving extends EntityAIBase
     public void digDown(World world, int x, int y, int z)
     {
     	Block wat = Blocks.water;
-    	int mat;
+    	Block mat;
     	
     	for (int iter = -1; iter < 2; iter++)
     	{
     		for (int kter = -1; kter < 2; kter++)
     		{
-    			mat = Block.getIdFromBlock(world.getBlock(x+iter, y-1, z+kter));
+    			mat = world.getBlock(x+iter, y-1, z+kter);
     			//if(mat < 256 && canDigBlocks[mat] && world.getBlockId(x+iter, y, z+kter) == wat)
-    			if(canDigBlocks[mat] && world.getBlock(x+iter, y, z+kter) == wat)
+    			if(MobbableBlock.isSoftBlock(mat, world) && world.getBlock(x+iter, y, z+kter) == wat)
     				world.setBlock(x+iter, y-1, z+kter, wat);
     		}
     	}
     }
     
-    static
+    /*static
     {
     	canDigBlocks = new boolean[256];
         canDigBlocks[Block.getIdFromBlock(Blocks.grass)] = true;
@@ -84,5 +85,5 @@ public class EntityAIDiving extends EntityAIBase
         canDigBlocks[Block.getIdFromBlock(Blocks.gravel)] = true;
         canDigBlocks[Block.getIdFromBlock(Blocks.clay)] = true;
         canDigBlocks[Block.getIdFromBlock(Blocks.mycelium)] = true;
-    }
+    }*/
 }
