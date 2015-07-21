@@ -13,6 +13,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -305,12 +306,16 @@ public class EntityGnomeDeep extends EntityGnome
 		{
 			this.chestTries = 0;
 		}
-		if (stack != null && stack.getItem() == Blocks.stone.getItem(this.worldObj, x, y, z) && stack.stackSize >= 64)
+		if (stack != null && stack.getItem() instanceof ItemBlock)
 		{
-			stack.splitStack(64);
-    		EntityGnomeDeep newgnome = (EntityGnomeDeep)((ItemCCMonsterPlacer) CCPMod.proxy.eggGnomeDeep).spawnEntity(this.worldObj, x+0.5D, y+1.0D, z+0.5D);
-    		newgnome.chest = this.chest;
-    		newgnome.hasChest = true;
+			ItemBlock iblock = (ItemBlock)(stack.getItem());
+			if (iblock.field_150939_a == Blocks.stone && stack.stackSize >= 64)
+			{
+				stack.splitStack(64);
+	    		EntityGnomeDeep newgnome = (EntityGnomeDeep)((ItemCCMonsterPlacer) CCPMod.proxy.eggGnomeDeep).spawnEntity(this.worldObj, x+0.5D, y+1.0D, z+0.5D);
+	    		newgnome.chest = this.chest;
+	    		newgnome.hasChest = true;
+			}
 		}
 		this.timeWithoutChest = 0;
 	}

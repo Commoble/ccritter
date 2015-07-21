@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -118,9 +119,10 @@ public class JobChestFill extends Job
 						this.gnome.onPlaceItemInChest(x, y, z, newstack, true);
 						return;
 					}
-					else if (stack.getItem() == carried.getItem(this.gnome.worldObj, x, y, z))
-					{	// non-full slot with the same item found
-						if (stack.stackSize < stack.getMaxStackSize())
+					else if (stack.getItem() instanceof ItemBlock)
+					{
+						ItemBlock iblock = (ItemBlock)(stack.getItem());
+						if (iblock.field_150939_a == carried && stack.stackSize < stack.getMaxStackSize())
 						{
 							stack.stackSize++;
 							this.gnome.setCarried(Blocks.air);
